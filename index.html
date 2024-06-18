@@ -1,31 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RealEstate</title>
-<style>
-  body.small-screen {
-      font-size: 12px;
-      zoom: 0.24; /* Zoom out for small screens */
-  }
-
-  body.medium-screen {
-      font-size: 14px;
-      zoom: 0.24; /* Slightly zoom out for medium screens */
-  }
-
-  body.large-screen {
-      font-size: 16px;
-      zoom: 1; /* Normal zoom for large screens */
-  }
-
-  /* Transition pentru a face schimbarea dimensiunii fontului și zoom-ului mai fluidă */
-  body {
-      transition: font-size 0.3s, zoom 0.3s;
-  }
-</style>
-
+<title>Fujisan Imobiliare</title>
 <link rel="icon" href="images/bama.png" type="image/x-icon">
 <meta charset="utf-8">
 <link rel="stylesheet" type="text/css" media="screen" href="css/reset.css">
@@ -72,26 +48,7 @@ $(document)
 <![endif]-->
 </head>
 <body>
-  <script>
-    function applyResponsiveStyles() {
-        const width = window.innerWidth;
-        document.body.classList.remove('small-screen', 'medium-screen', 'large-screen');
-
-        if (width <= 480) {
-            document.body.classList.add('small-screen');
-        } else if (width <= 768) {
-            document.body.classList.add('medium-screen');
-        } else {
-            document.body.classList.add('large-screen');
-        }
-    }
-
-    // Apply styles on page load
-    window.addEventListener('load', applyResponsiveStyles);
-
-    // Apply styles on window resize
-    window.addEventListener('resize', applyResponsiveStyles);
-</script>
+ 
 <div class="main">
   <!--==============================header=================================-->
   <header>
