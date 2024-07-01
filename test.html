@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+    .category {
+      border: 1px solid #ddd;
+      background-color: #f6f6f6;
+      padding: 12px;
+      font-size: 18px;
+      color: black;
+      cursor: pointer;
+    }
+    .subcategory {
+      border: 1px solid #ddd;
+      background-color: #f9f9f9;
+      padding: 12px;
+      font-size: 18px;
+      color: black;
+      display: none;
+    }
+    .subcategory a {
+      color: black;
+      text-decoration: none;
+    }
+  </style>
+  <script>
+    function toggleSubcategories(id) {
+      var subcategories = document.getElementById(id);
+      if (subcategories.style.display === "none" || subcategories.style.display === "") {
+        subcategories.style.display = "block";
+      } else {
+        subcategories.style.display = "none";
+      }
+    }
+  </script>
+</head>
+<body>
+
+<ul>
+  <li class="category" onclick="toggleSubcategories('apartments')">Apartamente</li>
+  <ul id="apartments" style="display:none;">
+    <li class="subcategory"><a href="#section5">Apartament 4 Camere</a></li>
+    <!-- Adăugați mai multe apartamente aici -->
+  </ul>
+
+  <li class="category" onclick="toggleSubcategories('houses')">Case</li>
+  <ul id="houses" style="display:none;">
+    <li class="subcategory"><a href="#section8">Casa Ciofrangeni</a></li>
+    <li class="subcategory"><a href="#section7">Case si apartamente</a></li>
+    <!-- Adăugați mai multe case aici -->
+  </ul>
+
+  <li class="category" onclick="toggleSubcategories('commercial')">Hale/Spatii Comerciale/Cladiri</li>
+  <ul id="commercial" style="display:none;">
+    <li class="subcategory"><a href="#section9">Cladire afaceri</a></li>
+    <li class="subcategory"><a href="#section6">Hala Judetul Neamt</a></li>
+    <!-- Adăugați mai multe spații comerciale aici -->
+  </ul>
+
+  <li class="category" onclick="toggleSubcategories('lands')">Terenuri</li>
+  <ul id="lands" style="display:none;">
+    <li class="subcategory"><a href="#section3">Teren Balcesti</a></li>
+    <li class="subcategory"><a href="#section1">Teren Bujoreni</a></li>
+    <li class="subcategory"><a href="#section2">Teren Caciulata</a></li>
+    <li class="subcategory"><a href="#section4">Teren Pausesti Maglasi</a></li>
+    <!-- Adăugați mai multe terenuri aici -->
+  </ul>
+</ul>
+
+</body>
+</html>
