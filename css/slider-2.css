@@ -48,3 +48,65 @@
 .banner {
 	display:none;
 }
+@media (min-width: 768px) {
+    .swiper-container {
+        display: none;
+    }
+}
+
+/* Ascunde slider-ul original pe telefoane */
+@media (max-width: 767px) {
+    .slider {
+        display: none;
+    }
+    .swiper-button-next, .swiper-button-prev {
+        top: 10px; /* Ajustează această valoare pentru a muta săgețile mai sus sau mai jos */
+    }
+    
+    /* Mută paginarea mai sus */
+    .swiper-pagination {
+        bottom: 50px; /* Ajustează această valoare pentru a muta paginarea mai sus sau mai jos */
+    }
+    /* Stilizare generală pentru Swiper */
+.swiper-container {
+    position: relative;
+}
+
+/* Stil pentru săgețile de navigare */
+.swiper-button-next, .swiper-button-prev {
+    width: 40px;
+    height: 40px;
+    background-size: 40px 40px;
+    background-position: center;
+    background-repeat: no-repeat;
+    top: 10px; /* Ajustează această valoare pentru a muta săgețile mai sus sau mai jos */
+}
+
+/* Stil pentru săgeata "next" */
+.swiper-button-next {
+    right: 10px;
+    background-image: url('path/to/next-icon.png'); /* Înlocuiește cu calea către iconița "next" */
+}
+
+/* Stil pentru săgeata "prev" */
+.swiper-button-prev {
+    left: 10px;
+    background-image: url('path/to/prev-icon.png'); /* Înlocuiește cu calea către iconița "prev" */
+}
+
+/* Stil pentru paginarea (bulinele) */
+.swiper-pagination {
+    bottom: 50px; /* Ajustează această valoare pentru a muta paginarea mai sus sau mai jos */
+    text-align: center;
+    z-index: 10;
+}
+
+/* Stil pentru bulinele paginării */
+.swiper-pagination-bullet {
+    background: #000; /* Culoarea bulinelor */
+}
+
+.swiper-pagination-bullet-active {
+    background: #fff; /* Culoarea bulinelor active */
+}
+}
