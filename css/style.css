@@ -556,6 +556,27 @@ dl dd a {
 	height: 350px;
 	margin:5px;
 }
+.Poze2{
+	width: 230px; 
+    height: 335px; 
+    margin: 10px auto;
+	margin-left:70px;
+	justify-content: space-between;
+}
+.Poze3{
+	width: auto; 
+    height: 320px; 
+    margin: 10px auto;
+	margin-left:50px;
+	justify-content: space-between;
+}
+.Poze4{
+	width: auto; 
+    height: 320px; 
+    margin: 10px auto;
+	margin-left:50px;
+	justify-content: space-between;
+}
 a {
     color: black; /* Set the default color for links */
     text-decoration: none; /* Remove underline from links */
@@ -1126,6 +1147,27 @@ a {
     .class9{
         height:35px;
         width:35px;
+    }
+    .Poze2 {
+        width: 100%; /* Folosește întreaga lățime disponibilă */
+        height: auto; /* Menține proporțiile imaginii */
+        margin: 10px 0; /* Elimină margin-left și centrează imaginea */
+        margin-left: 0;
+        justify-content: center;
+    }
+    .Poze3 {
+        width: 100%; /* Setează lățimea la 100% pentru ecrane mici */
+        height: auto; /* Ajustează înălțimea proporțional */
+        margin: 10px 0;
+        margin-left: 0; /* Elimină margin-left pentru centrare */
+        justify-content: center;
+    }
+    .Poze4 {
+        width: 100%; /* Lățimea completă pentru telefoane */
+        height: auto; /* Ajustează automat înălțimea */
+        margin: 10px 0;
+        margin-left: 0; /* Elimină alinierea stângă */
+        justify-content: center;
     }
     /* Stilizează întreaga bară de scroll */
 ::-webkit-scrollbar {
