@@ -8,7 +8,8 @@ body {
 	font:14px/25px Arial, Helvetica, sans-serif;
 	color:#939393;
 	min-width:1264px;
-	background:#131313
+	background:#131313;
+    overflow-x:hidden;
 }
 .ic {
 	border:0;
@@ -440,11 +441,11 @@ dl dd a {
 }
 .written{
 	font-family: Comic Sans MS;
-	font size: 30px;
+	font-size: 30px;
 }
 .serif{
 	font-family:serif;
-	font size:30px;
+	font-size:30px;
 }
 .poze{
 	margin-left: auto;
