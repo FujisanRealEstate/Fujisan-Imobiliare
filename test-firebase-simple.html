@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Firebase Simplu - Fujisan Imobiliare</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .success {
+            background: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        .warning {
+            background: #fff3cd;
+            border-color: #ffeaa7;
+            color: #856404;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .log {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .step {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 10px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🔧 Test Firebase Simplu</h1>
+        
+        <div class="step">
+            <h3>📋 Pași de urmat:</h3>
+            <ol>
+                <li><strong>Verifică Firestore Database</strong> - asigură-te că ai o bază de date activă</li>
+                <li><strong>Aplică regulile simple</strong> - folosește regulile de mai jos</li>
+                <li><strong>Testează pas cu pas</strong> - folosește butoanele de testare</li>
+            </ol>
+        </div>
+        
+        <div class="test-section">
+            <h3>1. Configurare Firebase</h3>
+            <div id="configStatus">Verificare...</div>
+        </div>
+        
+        <div class="test-section">
+            <h3>2. Test Autentificare</h3>
+            <button onclick="testAuth()">Testează Autentificarea</button>
+            <div id="authStatus">În așteptare...</div>
+        </div>
+        
+        <div class="test-section">
+            <h3>3. Test Firestore Simplu</h3>
+            <button onclick="testSimpleFirestore()">Testează Firestore Simplu</button>
+            <div id="firestoreStatus">În așteptare...</div>
+        </div>
+        
+        <div class="test-section">
+            <h3>4. Test Contor Vizitatori</h3>
+            <button onclick="testVisitCounter()">Testează Contorul</button>
+            <div id="visitStatus">În așteptare...</div>
+        </div>
+        
+        <div class="test-section">
+            <h3>5. Log-uri Detaliate</h3>
+            <div id="logContainer" class="log"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>6. Reguli Firestore Recomandate</h3>
+            <p><strong>Copiază aceste reguli în Firebase Console > Firestore Database > Rules:</strong></p>
+            <pre style="background: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto;">
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow all reads and writes for authenticated users
+    match /{document=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}</pre>
+            <p><strong>După ce aplici regulile, apasă "Publish" și așteaptă 1-2 minute.</strong></p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBttBExAw6WUhIFLzFYy8RnMU8lxp07tzk",
+            authDomain: "fujisan-imobiliare.firebaseapp.com",
+            projectId: "fujisan-imobiliare",
+            storageBucket: "fujisan-imobiliare.firebasestorage.app",
+            messagingSenderId: "400381645661",
+            appId: "1:400381645661:web:66a79aa42934e7758c0eb4",
+            measurementId: "G-5VP4RPYGZS"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const provider = new GoogleAuthProvider();
+
+        let currentUser = null;
+
+        // Log function
+        function log(message, type = 'info') {
+            const logContainer = document.getElementById('logContainer');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = `[${timestamp}] ${type.toUpperCase()}: ${message}\n`;
+            logContainer.textContent += logEntry;
+            logContainer.scrollTop = logContainer.scrollHeight;
+            console.log(message);
+        }
+
+        // Test Firebase configuration
+        function testConfig() {
+            const configStatus = document.getElementById('configStatus');
+            try {
+                if (app) {
+                    configStatus.innerHTML = '<div class="success">✅ Firebase configurat cu succes!</div>';
+                    log('Firebase initialized successfully');
+                } else {
+                    configStatus.innerHTML = '<div class="error">❌ Eroare la configurarea Firebase</div>';
+                    log('Firebase initialization failed', 'error');
+                }
+            } catch (error) {
+                configStatus.innerHTML = '<div class="error">❌ Eroare la configurarea Firebase: ' + error.message + '</div>';
+                log('Firebase config error: ' + error.message, 'error');
+            }
+        }
+
+        // Test authentication
+        window.testAuth = async function() {
+            const authStatus = document.getElementById('authStatus');
+            authStatus.innerHTML = 'Testare...';
+            
+            try {
+                log('Testing authentication...');
+                const result = await signInWithPopup(auth, provider);
+                currentUser = result.user;
+                
+                authStatus.innerHTML = `<div class="success">✅ Autentificare reușită! Utilizator: ${currentUser.email}</div>`;
+                log('Authentication successful: ' + currentUser.email);
+                log('User UID: ' + currentUser.uid);
+                
+            } catch (error) {
+                authStatus.innerHTML = `<div class="error">❌ Eroare autentificare: ${error.message}</div>`;
+                log('Authentication error: ' + error.message, 'error');
+                
+                if (error.code === 'auth/unauthorized-domain') {
+                    log('SOLUȚIE: Adaugă domeniul în Firebase Console > Authentication > Settings > Authorized domains', 'warning');
+                }
+            }
+        };
+
+        // Test simple Firestore
+        window.testSimpleFirestore = async function() {
+            const firestoreStatus = document.getElementById('firestoreStatus');
+            firestoreStatus.innerHTML = 'Testare...';
+            
+            if (!currentUser) {
+                firestoreStatus.innerHTML = '<div class="error">❌ Trebuie să te autentifici mai întâi!</div>';
+                log('User not authenticated', 'error');
+                return;
+            }
+            
+            try {
+                log('Testing simple Firestore write...');
+                
+                // Test write with user-specific document
+                const testDoc = doc(db, "users", currentUser.uid, "test", "simple-test");
+                await setDoc(testDoc, {
+                    test: true,
+                    timestamp: new Date(),
+                    message: "Simple test document",
+                    userEmail: currentUser.email
+                });
+                log('Simple Firestore write successful');
+                
+                // Test read
+                const testRead = await getDoc(testDoc);
+                if (testRead.exists()) {
+                    log('Simple Firestore read successful');
+                    firestoreStatus.innerHTML = '<div class="success">✅ Firestore simplu funcționează!</div>';
+                } else {
+                    throw new Error('Document not found after write');
+                }
+                
+            } catch (error) {
+                firestoreStatus.innerHTML = `<div class="error">❌ Eroare Firestore simplu: ${error.message}</div>`;
+                log('Simple Firestore error: ' + error.message, 'error');
+                
+                if (error.message.includes('permission')) {
+                    log('SOLUȚIE: Aplică regulile simple din secțiunea 6', 'warning');
+                }
+            }
+        };
+
+        // Test visit counter
+        window.testVisitCounter = async function() {
+            const visitStatus = document.getElementById('visitStatus');
+            visitStatus.innerHTML = 'Testare...';
+            
+            if (!currentUser) {
+                visitStatus.innerHTML = '<div class="error">❌ Trebuie să te autentifici mai întâi!</div>';
+                log('User not authenticated', 'error');
+                return;
+            }
+            
+            try {
+                log('Testing visit counter...');
+                
+                const visitsRef = doc(db, "statistics", "visits");
+                
+                // Test increment
+                await updateDoc(visitsRef, {
+                    total: increment(1),
+                    lastUpdate: new Date().toISOString().split('T')[0]
+                });
+                log('Visit counter increment successful');
+                
+                // Test read
+                const visitsDoc = await getDoc(visitsRef);
+                if (visitsDoc.exists()) {
+                    const data = visitsDoc.data();
+                    log('Visit counter read successful. Total: ' + data.total);
+                    visitStatus.innerHTML = `<div class="success">✅ Contor vizitatori funcționează! Total: ${data.total}</div>`;
+                } else {
+                    throw new Error('Visit counter document not found');
+                }
+                
+            } catch (error) {
+                visitStatus.innerHTML = `<div class="error">❌ Eroare contor vizitatori: ${error.message}</div>`;
+                log('Visit counter error: ' + error.message, 'error');
+            }
+        };
+
+        // Auth state observer
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+                log('User state changed: ' + user.email);
+            } else {
+                currentUser = null;
+                log('User signed out');
+            }
+        });
+
+        // Initialize tests
+        testConfig();
+        log('Simple test page loaded. Ready to test Firebase configuration.');
+    </script>
+</body>
+</html> 
