@@ -340,51 +340,43 @@ async function handleAddOffer(event) {
 
 
 
-// Upload images to ImageKit
+// Upload images to ImageKit via server-side handler
 async function uploadImagesToImageKit(files, progressCallback, statusCallback) {
     const imageUrls = [];
-    const imageKitConfig = {
-        publicKey: 'public_UFJStOhYLxOl6tm4ku61BDsF+uo=',
-        privateKey: 'private_9V1gOW/GUOzJOSpFoTu8pPoi7MY=', // Cheia ta privată ImageKit
-        urlEndpoint: 'https://ik.imagekit.io/biihsnqf1'
-    };
     
     for (let i = 0; i < files.length; i++) {
         const file = files[i];
         const formData = new FormData();
         formData.append('file', file);
-        formData.append('publicKey', imageKitConfig.publicKey);
         
-        // Pentru autentificare cu privateKey direct
-        formData.append('privateKey', imageKitConfig.privateKey);
+        // Generate unique filename
+        const timestamp = Date.now();
+        const randomId = Math.random().toString(36).substring(2, 15);
+        const fileName = `offer_${timestamp}_${randomId}_${i}`;
         
-        formData.append('fileName', `offer_${Date.now()}_${i}`);
-        formData.append('useUniqueFileName', 'true');
+        formData.append('fileName', fileName);
         formData.append('folder', '/fujisan-offers');
         
         try {
-            const response = await fetch('https://upload.imagekit.io/api/v1/files/upload', {
+            const response = await fetch('upload-imagekit.php', {
                 method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                },
                 body: formData
             });
             
             if (!response.ok) {
                 const errorText = await response.text();
-                console.error('ImageKit upload error:', response.status, errorText);
+                console.error('Upload error:', response.status, errorText);
                 if (statusCallback) statusCallback(false);
                 throw new Error(`Upload failed: ${response.status} - ${errorText}`);
             }
             
             const result = await response.json();
-            if (result.url) {
+            if (result.success && result.url) {
                 imageUrls.push(result.url);
                 if (statusCallback) statusCallback(true);
             } else {
                 if (statusCallback) statusCallback(false);
-                throw new Error('No URL returned from ImageKit');
+                throw new Error(result.error || 'No URL returned from upload');
             }
         } catch (error) {
             console.error('Error uploading image:', error);
