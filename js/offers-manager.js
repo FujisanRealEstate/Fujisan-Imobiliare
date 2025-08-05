@@ -96,9 +96,34 @@ function showAddOfferModal() {
                 </div>
                 
                 <div class="form-group">
-                    <label for="offerImages">Poze</label>
-                    <input type="file" id="offerImages" multiple accept="image/*" style="padding: 8px; border: 1px solid #ddd; border-radius: 4px; width: 100%;">
-                    <small style="color: #666; font-size: 12px;">Poți selecta mai multe imagini (JPG, PNG, GIF)</small>
+                    <label>Poze</label>
+                    <div class="upload-area" id="offerUploadArea">
+                        <input type="file" id="offerImages" multiple accept="image/*" class="file-input">
+                        <div class="upload-icon">📁</div>
+                        <div class="upload-text">Trage imaginile aici sau click pentru a selecta</div>
+                        <div class="upload-hint">Suportă drag & drop, paste și selectare din fișier</div>
+                    </div>
+                    
+                    <div class="upload-stats" id="offerUploadStats" style="display: none;">
+                        <div class="stat-item">
+                            <div class="stat-number" id="totalOfferFiles">0</div>
+                            <div class="stat-label">Total fișiere</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="uploadedOfferFiles">0</div>
+                            <div class="stat-label">Încărcate</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="failedOfferFiles">0</div>
+                            <div class="stat-label">Eșuate</div>
+                        </div>
+                    </div>
+                    
+                    <div class="upload-progress" id="offerUploadProgress">
+                        <div class="progress-bar" id="offerProgressBar"></div>
+                    </div>
+                    
+                    <div class="image-preview-container" id="offerImagePreview"></div>
                 </div>
                 
                 <div class="form-group">
@@ -120,25 +145,163 @@ function showAddOfferModal() {
 
     document.body.appendChild(modal);
 
+    // Initialize upload functionality for the offer modal
+    initOfferUpload();
+    
     // Handle form submission
     document.getElementById('addOfferForm').addEventListener('submit', handleAddOffer);
+}
+
+// Initialize upload functionality for offers
+function initOfferUpload() {
+    const uploadArea = document.getElementById('offerUploadArea');
+    const fileInput = document.getElementById('offerImages');
+    const imagePreview = document.getElementById('offerImagePreview');
+    const uploadStats = document.getElementById('offerUploadStats');
+    
+    // Drag and drop functionality
+    uploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadArea.classList.add('dragover');
+    });
+    
+    uploadArea.addEventListener('dragleave', () => {
+        uploadArea.classList.remove('dragover');
+    });
+    
+    uploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
+        const files = Array.from(e.dataTransfer.files).filter(file => file.type.startsWith('image/'));
+        addOfferFiles(files);
+    });
+    
+    // File input change
+    fileInput.addEventListener('change', (e) => {
+        const files = Array.from(e.target.files);
+        addOfferFiles(files);
+    });
+    
+    // Paste functionality
+    document.addEventListener('paste', (e) => {
+        if (document.getElementById('offerUploadArea')) {
+            const items = Array.from(e.clipboardData.items);
+            const files = items
+                .filter(item => item.type.startsWith('image/'))
+                .map(item => item.getAsFile());
+            if (files.length > 0) {
+                addOfferFiles(files);
+            }
+        }
+    });
+    
+    // Click to select files
+    uploadArea.addEventListener('click', () => {
+        fileInput.click();
+    });
+    
+    function addOfferFiles(files) {
+        files.forEach(file => {
+            if (file.type.startsWith('image/') && !window.selectedOfferFiles.find(f => f.name === file.name && f.size === file.size)) {
+                window.selectedOfferFiles.push(file);
+                createOfferImagePreview(file);
+            }
+        });
+        updateOfferStats();
+    }
+    
+    function createOfferImagePreview(file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const previewItem = document.createElement('div');
+            previewItem.className = 'image-preview-item';
+            previewItem.innerHTML = `
+                <img src="${e.target.result}" alt="${file.name}">
+                <button type="button" class="remove-btn" onclick="removeOfferFile('${file.name}', ${file.size})">×</button>
+            `;
+            imagePreview.appendChild(previewItem);
+        };
+        reader.readAsDataURL(file);
+    }
+    
+    window.removeOfferFile = function(fileName, fileSize) {
+        window.selectedOfferFiles = window.selectedOfferFiles.filter(f => !(f.name === fileName && f.size === fileSize));
+        updateOfferStats();
+        // Remove preview
+        const previewItems = imagePreview.querySelectorAll('.image-preview-item');
+        previewItems.forEach(item => {
+            const img = item.querySelector('img');
+            if (img.alt === fileName) {
+                item.remove();
+            }
+        });
+    };
+    
+    function updateOfferStats() {
+        const totalFiles = document.getElementById('totalOfferFiles');
+        const uploadedFiles = document.getElementById('uploadedOfferFiles');
+        const failedFiles = document.getElementById('failedOfferFiles');
+        
+        totalFiles.textContent = window.selectedOfferFiles.length;
+        uploadedFiles.textContent = '0';
+        failedFiles.textContent = '0';
+        
+        if (window.selectedOfferFiles.length > 0) {
+            uploadStats.style.display = 'flex';
+        } else {
+            uploadStats.style.display = 'none';
+        }
+    }
 }
 
 // Handle add offer form submission
 async function handleAddOffer(event) {
     event.preventDefault();
     
+    // Initialize selected files array if not exists
+    if (!window.selectedOfferFiles) {
+        window.selectedOfferFiles = [];
+    }
+    
     // Handle image uploads first
-    const imageFiles = document.getElementById('offerImages').files;
     let imageUrls = [];
     
-    if (imageFiles.length > 0) {
+    if (window.selectedOfferFiles.length > 0) {
         try {
-            imageUrls = await uploadImagesToImageKit(imageFiles);
+            const uploadProgress = document.getElementById('offerUploadProgress');
+            const progressBar = document.getElementById('offerProgressBar');
+            const uploadedFiles = document.getElementById('uploadedOfferFiles');
+            const failedFiles = document.getElementById('failedOfferFiles');
+            
+            uploadProgress.style.display = 'block';
+            
+            let uploaded = 0;
+            let failed = 0;
+            
+            imageUrls = await uploadImagesToImageKit(window.selectedOfferFiles, (progress) => {
+                progressBar.style.width = progress + '%';
+            }, (success) => {
+                if (success) {
+                    uploaded++;
+                    uploadedFiles.textContent = uploaded;
+                } else {
+                    failed++;
+                    failedFiles.textContent = failed;
+                }
+            });
         } catch (error) {
             console.error('Error uploading images:', error);
-            alert('Eroare la încărcarea imaginilor: ' + error.message);
-            return;
+            const continueWithoutImages = confirm('Eroare la încărcarea imaginilor: ' + error.message + '\n\nDorești să continui fără imagini?');
+            if (!continueWithoutImages) {
+                return;
+            }
+            // Continue without images
+            imageUrls = [];
+        } finally {
+            const uploadProgress = document.getElementById('offerUploadProgress');
+            const progressBar = document.getElementById('offerProgressBar');
+            uploadProgress.style.display = 'none';
+            progressBar.style.width = '0%';
         }
     }
     
@@ -167,7 +330,7 @@ async function handleAddOffer(event) {
 }
 
 // Upload images to ImageKit
-async function uploadImagesToImageKit(files) {
+async function uploadImagesToImageKit(files, progressCallback, statusCallback) {
     const imageUrls = [];
     const imageKitConfig = {
         publicKey: 'public_UFJStOhYLxOl6tm4ku61BDsF+uo=',
@@ -180,22 +343,43 @@ async function uploadImagesToImageKit(files) {
         formData.append('file', file);
         formData.append('publicKey', imageKitConfig.publicKey);
         formData.append('fileName', `offer_${Date.now()}_${i}`);
+        formData.append('useUniqueFileName', 'true');
+        formData.append('folder', '/fujisan-offers');
         
         try {
             const response = await fetch('https://upload.imagekit.io/api/v1/files/upload', {
                 method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                },
                 body: formData
             });
             
             if (!response.ok) {
-                throw new Error('Upload failed');
+                const errorText = await response.text();
+                console.error('ImageKit upload error:', response.status, errorText);
+                if (statusCallback) statusCallback(false);
+                throw new Error(`Upload failed: ${response.status} - ${errorText}`);
             }
             
             const result = await response.json();
-            imageUrls.push(result.url);
+            if (result.url) {
+                imageUrls.push(result.url);
+                if (statusCallback) statusCallback(true);
+            } else {
+                if (statusCallback) statusCallback(false);
+                throw new Error('No URL returned from ImageKit');
+            }
         } catch (error) {
             console.error('Error uploading image:', error);
+            if (statusCallback) statusCallback(false);
             throw error;
+        }
+        
+        // Update progress
+        if (progressCallback) {
+            const progress = ((i + 1) / files.length) * 100;
+            progressCallback(progress);
         }
     }
     

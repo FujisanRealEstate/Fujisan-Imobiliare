@@ -85,13 +85,13 @@
 /* Stil pentru săgeata "next" */
 .swiper-button-next {
     right: 10px;
-    background-image: url('path/to/next-icon.png'); /* Înlocuiește cu calea către iconița "next" */
+    background-image: url('../images/next.png'); /* Folosește imaginea existentă */
 }
 
 /* Stil pentru săgeata "prev" */
 .swiper-button-prev {
     left: 10px;
-    background-image: url('path/to/prev-icon.png'); /* Înlocuiește cu calea către iconița "prev" */
+    background-image: url('../images/prev.png'); /* Folosește imaginea existentă */
 }
 
 /* Stil pentru paginarea (bulinele) */

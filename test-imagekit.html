@@ -28,14 +28,115 @@
             color: #fff;
             font-weight: 600;
         }
-        input[type="file"] {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #333;
-            border-radius: 5px;
-            background: #131313;
-            color: #939393;
+        
+        /* Modern Upload Area */
+        .upload-area {
+            border: 2px dashed #555;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            background: #1a1a1a;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
         }
+        
+        .upload-area:hover {
+            border-color: #2098f5;
+            background: #1f1f1f;
+        }
+        
+        .upload-area.dragover {
+            border-color: #2098f5;
+            background: #1f1f1f;
+            transform: scale(1.02);
+        }
+        
+        .upload-icon {
+            font-size: 48px;
+            color: #555;
+            margin-bottom: 15px;
+        }
+        
+        .upload-text {
+            color: #939393;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .upload-hint {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .file-input {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        
+        /* Image Preview */
+        .image-preview-container {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+        }
+        
+        .image-preview-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #1a1a1a;
+            border: 1px solid #333;
+        }
+        
+        .image-preview-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .image-preview-item .remove-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(255, 0, 0, 0.8);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .image-preview-item .remove-btn:hover {
+            background: rgba(255, 0, 0, 1);
+        }
+        
+        .upload-progress {
+            margin-top: 15px;
+            background: #1a1a1a;
+            border-radius: 5px;
+            overflow: hidden;
+            display: none;
+        }
+        
+        .progress-bar {
+            height: 4px;
+            background: #2098f5;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
         button {
             background: #2098f5;
             color: white;
@@ -44,10 +145,16 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
+            margin-top: 15px;
         }
         button:hover {
             background: #131313;
         }
+        button:disabled {
+            background: #555;
+            cursor: not-allowed;
+        }
+        
         .result {
             margin-top: 20px;
             padding: 15px;
@@ -55,14 +162,29 @@
             border: 1px solid #333;
             border-radius: 5px;
         }
-        .image-preview {
-            margin-top: 15px;
-        }
-        .image-preview img {
-            max-width: 200px;
-            max-height: 200px;
+        
+        .upload-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #1a1a1a;
             border-radius: 5px;
-            margin: 5px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2098f5;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #666;
         }
     </style>
 </head>
@@ -73,39 +195,251 @@
         
         <form id="uploadForm">
             <div class="form-group">
-                <label for="images">Selectează imagini:</label>
-                <input type="file" id="images" multiple accept="image/*">
+                <label>Selectează imagini:</label>
+                <div class="upload-area" id="uploadArea">
+                    <input type="file" id="images" multiple accept="image/*" class="file-input">
+                    <div class="upload-icon">📁</div>
+                    <div class="upload-text">Trage imaginile aici sau click pentru a selecta</div>
+                    <div class="upload-hint">Suportă drag & drop, paste și selectare din fișier</div>
+                </div>
             </div>
-            <button type="submit">Upload la ImageKit</button>
+            
+            <div class="upload-stats" id="uploadStats" style="display: none;">
+                <div class="stat-item">
+                    <div class="stat-number" id="totalFiles">0</div>
+                    <div class="stat-label">Total fișiere</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="uploadedFiles">0</div>
+                    <div class="stat-label">Încărcate</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="failedFiles">0</div>
+                    <div class="stat-label">Eșuate</div>
+                </div>
+            </div>
+            
+            <div class="upload-progress" id="uploadProgress">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            
+            <div class="image-preview-container" id="imagePreview"></div>
+            
+            <button type="submit" id="uploadBtn" disabled>Upload la ImageKit</button>
         </form>
         
         <div class="result" id="result" style="display: none;">
             <h3>Rezultat:</h3>
             <div id="resultContent"></div>
-            <div class="image-preview" id="imagePreview"></div>
+        </div>
+        
+        <div class="result" id="diagnostic" style="display: block; margin-top: 20px;">
+            <h3>Diagnostic ImageKit:</h3>
+            <div id="diagnosticContent">
+                <p>Se verifică configurația ImageKit...</p>
+            </div>
         </div>
     </div>
 
     <script>
+        let selectedFiles = [];
+        
+        // Test ImageKit authentication first
+        async function testImageKitAuth() {
+            const imageKitConfig = {
+                publicKey: 'public_UFJStOhYLxOl6tm4ku61BDsF+uo=',
+                urlEndpoint: 'https://ik.imagekit.io/biihsnqf1'
+            };
+            
+            const diagnosticContent = document.getElementById('diagnosticContent');
+            
+            try {
+                diagnosticContent.innerHTML = '<p>Se testează autentificarea ImageKit...</p>';
+                
+                const response = await fetch('https://api.imagekit.io/v1/files', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Basic ${btoa(imageKitConfig.publicKey + ':')}`
+                    }
+                });
+                
+                console.log('ImageKit auth test response:', response.status);
+                
+                if (response.ok) {
+                    console.log('ImageKit authentication successful');
+                    diagnosticContent.innerHTML = `
+                        <p><strong style="color: green;">✓ Autentificare ImageKit reușită</strong></p>
+                        <p>Public Key: ${imageKitConfig.publicKey}</p>
+                        <p>URL Endpoint: ${imageKitConfig.urlEndpoint}</p>
+                    `;
+                } else {
+                    console.error('ImageKit authentication failed');
+                    diagnosticContent.innerHTML = `
+                        <p><strong style="color: red;">✗ Autentificare ImageKit eșuată</strong></p>
+                        <p>Status: ${response.status}</p>
+                        <p>Public Key: ${imageKitConfig.publicKey}</p>
+                        <p>URL Endpoint: ${imageKitConfig.urlEndpoint}</p>
+                        <p><em>Verifică configurația ImageKit în dashboard-ul tău.</em></p>
+                    `;
+                }
+            } catch (error) {
+                console.error('ImageKit auth test error:', error);
+                diagnosticContent.innerHTML = `
+                    <p><strong style="color: red;">✗ Eroare la testarea ImageKit</strong></p>
+                    <p>Eroare: ${error.message}</p>
+                    <p>Public Key: ${imageKitConfig.publicKey}</p>
+                    <p>URL Endpoint: ${imageKitConfig.urlEndpoint}</p>
+                `;
+            }
+        }
+        
+        // Initialize upload functionality
+        function initUpload() {
+            const uploadArea = document.getElementById('uploadArea');
+            const fileInput = document.getElementById('images');
+            const uploadBtn = document.getElementById('uploadBtn');
+            const imagePreview = document.getElementById('imagePreview');
+            const uploadStats = document.getElementById('uploadStats');
+            
+            // Drag and drop functionality
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+            
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.classList.remove('dragover');
+            });
+            
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                const files = Array.from(e.dataTransfer.files).filter(file => file.type.startsWith('image/'));
+                addFiles(files);
+            });
+            
+            // File input change
+            fileInput.addEventListener('change', (e) => {
+                const files = Array.from(e.target.files);
+                addFiles(files);
+            });
+            
+            // Paste functionality
+            document.addEventListener('paste', (e) => {
+                const items = Array.from(e.clipboardData.items);
+                const files = items
+                    .filter(item => item.type.startsWith('image/'))
+                    .map(item => item.getAsFile());
+                if (files.length > 0) {
+                    addFiles(files);
+                }
+            });
+            
+            // Click to select files
+            uploadArea.addEventListener('click', () => {
+                fileInput.click();
+            });
+            
+            function addFiles(files) {
+                files.forEach(file => {
+                    if (file.type.startsWith('image/') && !selectedFiles.find(f => f.name === file.name && f.size === file.size)) {
+                        selectedFiles.push(file);
+                        createImagePreview(file);
+                    }
+                });
+                updateStats();
+                updateUploadButton();
+            }
+            
+            function createImagePreview(file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const previewItem = document.createElement('div');
+                    previewItem.className = 'image-preview-item';
+                    previewItem.innerHTML = `
+                        <img src="${e.target.result}" alt="${file.name}">
+                        <button type="button" class="remove-btn" onclick="removeFile('${file.name}', ${file.size})">×</button>
+                    `;
+                    imagePreview.appendChild(previewItem);
+                };
+                reader.readAsDataURL(file);
+            }
+            
+            window.removeFile = function(fileName, fileSize) {
+                selectedFiles = selectedFiles.filter(f => !(f.name === fileName && f.size === fileSize));
+                updateStats();
+                updateUploadButton();
+                // Remove preview
+                const previewItems = imagePreview.querySelectorAll('.image-preview-item');
+                previewItems.forEach(item => {
+                    const img = item.querySelector('img');
+                    if (img.alt === fileName) {
+                        item.remove();
+                    }
+                });
+            };
+            
+            function updateStats() {
+                const totalFiles = document.getElementById('totalFiles');
+                const uploadedFiles = document.getElementById('uploadedFiles');
+                const failedFiles = document.getElementById('failedFiles');
+                
+                totalFiles.textContent = selectedFiles.length;
+                uploadedFiles.textContent = '0';
+                failedFiles.textContent = '0';
+                
+                if (selectedFiles.length > 0) {
+                    uploadStats.style.display = 'flex';
+                } else {
+                    uploadStats.style.display = 'none';
+                }
+            }
+            
+            function updateUploadButton() {
+                uploadBtn.disabled = selectedFiles.length === 0;
+            }
+        }
+        
+        // Run auth test and init upload on page load
+        testImageKitAuth();
+        initUpload();
+        
         document.getElementById('uploadForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const files = document.getElementById('images').files;
-            if (files.length === 0) {
+            if (selectedFiles.length === 0) {
                 alert('Te rog selectează cel puțin o imagine!');
                 return;
             }
             
             const resultDiv = document.getElementById('result');
             const resultContent = document.getElementById('resultContent');
-            const imagePreview = document.getElementById('imagePreview');
+            const uploadProgress = document.getElementById('uploadProgress');
+            const progressBar = document.getElementById('progressBar');
+            const uploadBtn = document.getElementById('uploadBtn');
+            const uploadedFiles = document.getElementById('uploadedFiles');
+            const failedFiles = document.getElementById('failedFiles');
             
             resultContent.innerHTML = '<p>Se încarcă imaginile...</p>';
             resultDiv.style.display = 'block';
-            imagePreview.innerHTML = '';
+            uploadProgress.style.display = 'block';
+            uploadBtn.disabled = true;
+            
+            let uploaded = 0;
+            let failed = 0;
             
             try {
-                const imageUrls = await uploadImagesToImageKit(files);
+                const imageUrls = await uploadImagesToImageKit(selectedFiles, (progress) => {
+                    progressBar.style.width = progress + '%';
+                }, (success) => {
+                    if (success) {
+                        uploaded++;
+                        uploadedFiles.textContent = uploaded;
+                    } else {
+                        failed++;
+                        failedFiles.textContent = failed;
+                    }
+                });
                 
                 resultContent.innerHTML = `
                     <p><strong>Succes!</strong> ${imageUrls.length} imagine(i) încărcată(e).</p>
@@ -115,24 +449,26 @@
                     </ul>
                 `;
                 
-                // Afișează preview-ul imaginilor
-                imageUrls.forEach(url => {
-                    const img = document.createElement('img');
-                    img.src = url;
-                    img.alt = 'Uploaded image';
-                    imagePreview.appendChild(img);
-                });
+                // Clear selected files after successful upload
+                selectedFiles = [];
+                document.getElementById('imagePreview').innerHTML = '';
+                document.getElementById('totalFiles').textContent = '0';
+                uploadStats.style.display = 'none';
                 
             } catch (error) {
                 resultContent.innerHTML = `
                     <p><strong>Eroare:</strong> ${error.message}</p>
                     <p>Detalii: ${error.stack}</p>
                 `;
+            } finally {
+                uploadProgress.style.display = 'none';
+                uploadBtn.disabled = false;
+                progressBar.style.width = '0%';
             }
         });
         
         // Funcția de upload la ImageKit
-        async function uploadImagesToImageKit(files) {
+        async function uploadImagesToImageKit(files, progressCallback, statusCallback) {
             const imageUrls = [];
             const imageKitConfig = {
                 publicKey: 'public_UFJStOhYLxOl6tm4ku61BDsF+uo=',
@@ -145,24 +481,42 @@
                 formData.append('file', file);
                 formData.append('publicKey', imageKitConfig.publicKey);
                 formData.append('fileName', `test_${Date.now()}_${i}`);
+                formData.append('useUniqueFileName', 'true');
+                formData.append('folder', '/fujisan-test');
                 
                 try {
                     const response = await fetch('https://upload.imagekit.io/api/v1/files/upload', {
                         method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                        },
                         body: formData
                     });
                     
                     if (!response.ok) {
                         const errorText = await response.text();
+                        console.error('ImageKit upload error:', response.status, errorText);
+                        statusCallback(false);
                         throw new Error(`Upload failed: ${response.status} - ${errorText}`);
                     }
                     
                     const result = await response.json();
-                    imageUrls.push(result.url);
+                    if (result.url) {
+                        imageUrls.push(result.url);
+                        statusCallback(true);
+                    } else {
+                        statusCallback(false);
+                        throw new Error('No URL returned from ImageKit');
+                    }
                 } catch (error) {
                     console.error('Error uploading image:', error);
+                    statusCallback(false);
                     throw error;
                 }
+                
+                // Update progress
+                const progress = ((i + 1) / files.length) * 100;
+                progressCallback(progress);
             }
             
             return imageUrls;

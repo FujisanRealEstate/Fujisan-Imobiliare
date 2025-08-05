@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Interfață Upload Modernă</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            padding: 20px;
+            background: #131313;
+            color: #939393;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #272727;
+            padding: 30px;
+            border-radius: 10px;
+        }
+        .test-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background: #1a1a1a;
+            border-radius: 8px;
+        }
+        .test-section h2 {
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        .feature-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #333;
+        }
+        .feature-list li:before {
+            content: "✓";
+            color: #2098f5;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Test Interfață Upload Modernă</h1>
+        <p>Această pagină demonstrează noua interfață de upload cu funcționalități moderne.</p>
+        
+        <div class="test-section">
+            <h2>Funcționalități Implementate</h2>
+            <ul class="feature-list">
+                <li><strong>Drag & Drop:</strong> Trage imaginile direct în zona de upload</li>
+                <li><strong>Paste:</strong> Lipește imagini din clipboard (Ctrl+V)</li>
+                <li><strong>Click to Select:</strong> Click pe zona de upload pentru a selecta fișiere</li>
+                <li><strong>Preview:</strong> Previzualizare în timp real a imaginilor selectate</li>
+                <li><strong>Remove:</strong> Buton X pentru a elimina imagini din selecție</li>
+                <li><strong>Progress Bar:</strong> Bară de progres pentru upload</li>
+                <li><strong>Statistics:</strong> Statistici în timp real (total, încărcate, eșuate)</li>
+                <li><strong>Responsive:</strong> Interfață adaptată pentru mobile</li>
+            </ul>
+        </div>
+        
+        <div class="test-section">
+            <h2>Test Upload Area</h2>
+            <form id="testUploadForm">
+                <div class="form-group">
+                    <label>Selectează imagini:</label>
+                    <div class="upload-area" id="testUploadArea">
+                        <input type="file" id="testImages" multiple accept="image/*" class="file-input">
+                        <div class="upload-icon">📁</div>
+                        <div class="upload-text">Trage imaginile aici sau click pentru a selecta</div>
+                        <div class="upload-hint">Suportă drag & drop, paste și selectare din fișier</div>
+                    </div>
+                    
+                    <div class="upload-stats" id="testUploadStats" style="display: none;">
+                        <div class="stat-item">
+                            <div class="stat-number" id="testTotalFiles">0</div>
+                            <div class="stat-label">Total fișiere</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="testUploadedFiles">0</div>
+                            <div class="stat-label">Încărcate</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="testFailedFiles">0</div>
+                            <div class="stat-label">Eșuate</div>
+                        </div>
+                    </div>
+                    
+                    <div class="upload-progress" id="testUploadProgress">
+                        <div class="progress-bar" id="testProgressBar"></div>
+                    </div>
+                    
+                    <div class="image-preview-container" id="testImagePreview"></div>
+                    
+                    <button type="submit" id="testUploadBtn" disabled style="margin-top: 15px;">
+                        Test Upload
+                    </button>
+                </div>
+            </form>
+        </div>
+        
+        <div class="test-section">
+            <h2>Instrucțiuni de Testare</h2>
+            <ol>
+                <li><strong>Drag & Drop:</strong> Deschide o imagine în browser și trage-o în zona de upload</li>
+                <li><strong>Paste:</strong> Copiază o imagine (Ctrl+C) și lipește-o (Ctrl+V) pe pagină</li>
+                <li><strong>Click:</strong> Click pe zona de upload pentru a selecta fișiere</li>
+                <li><strong>Remove:</strong> Click pe butonul X pentru a elimina o imagine</li>
+                <li><strong>Mobile:</strong> Testează pe telefon pentru responsive design</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        let testSelectedFiles = [];
+        
+        // Initialize test upload functionality
+        function initTestUpload() {
+            const uploadArea = document.getElementById('testUploadArea');
+            const fileInput = document.getElementById('testImages');
+            const uploadBtn = document.getElementById('testUploadBtn');
+            const imagePreview = document.getElementById('testImagePreview');
+            const uploadStats = document.getElementById('testUploadStats');
+            
+            // Drag and drop functionality
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+            
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.classList.remove('dragover');
+            });
+            
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                const files = Array.from(e.dataTransfer.files).filter(file => file.type.startsWith('image/'));
+                addTestFiles(files);
+            });
+            
+            // File input change
+            fileInput.addEventListener('change', (e) => {
+                const files = Array.from(e.target.files);
+                addTestFiles(files);
+            });
+            
+            // Paste functionality
+            document.addEventListener('paste', (e) => {
+                const items = Array.from(e.clipboardData.items);
+                const files = items
+                    .filter(item => item.type.startsWith('image/'))
+                    .map(item => item.getAsFile());
+                if (files.length > 0) {
+                    addTestFiles(files);
+                }
+            });
+            
+            // Click to select files
+            uploadArea.addEventListener('click', () => {
+                fileInput.click();
+            });
+            
+            function addTestFiles(files) {
+                files.forEach(file => {
+                    if (file.type.startsWith('image/') && !testSelectedFiles.find(f => f.name === file.name && f.size === file.size)) {
+                        testSelectedFiles.push(file);
+                        createTestImagePreview(file);
+                    }
+                });
+                updateTestStats();
+                updateTestUploadButton();
+            }
+            
+            function createTestImagePreview(file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const previewItem = document.createElement('div');
+                    previewItem.className = 'image-preview-item';
+                    previewItem.innerHTML = `
+                        <img src="${e.target.result}" alt="${file.name}">
+                        <button type="button" class="remove-btn" onclick="removeTestFile('${file.name}', ${file.size})">×</button>
+                    `;
+                    imagePreview.appendChild(previewItem);
+                };
+                reader.readAsDataURL(file);
+            }
+            
+            window.removeTestFile = function(fileName, fileSize) {
+                testSelectedFiles = testSelectedFiles.filter(f => !(f.name === fileName && f.size === fileSize));
+                updateTestStats();
+                updateTestUploadButton();
+                // Remove preview
+                const previewItems = imagePreview.querySelectorAll('.image-preview-item');
+                previewItems.forEach(item => {
+                    const img = item.querySelector('img');
+                    if (img.alt === fileName) {
+                        item.remove();
+                    }
+                });
+            };
+            
+            function updateTestStats() {
+                const totalFiles = document.getElementById('testTotalFiles');
+                const uploadedFiles = document.getElementById('testUploadedFiles');
+                const failedFiles = document.getElementById('testFailedFiles');
+                
+                totalFiles.textContent = testSelectedFiles.length;
+                uploadedFiles.textContent = '0';
+                failedFiles.textContent = '0';
+                
+                if (testSelectedFiles.length > 0) {
+                    uploadStats.style.display = 'flex';
+                } else {
+                    uploadStats.style.display = 'none';
+                }
+            }
+            
+            function updateTestUploadButton() {
+                uploadBtn.disabled = testSelectedFiles.length === 0;
+            }
+        }
+        
+        // Initialize on page load
+        initTestUpload();
+        
+        // Handle form submission
+        document.getElementById('testUploadForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (testSelectedFiles.length === 0) {
+                alert('Te rog selectează cel puțin o imagine!');
+                return;
+            }
+            
+            const uploadProgress = document.getElementById('testUploadProgress');
+            const progressBar = document.getElementById('testProgressBar');
+            const uploadBtn = document.getElementById('testUploadBtn');
+            const uploadedFiles = document.getElementById('testUploadedFiles');
+            const failedFiles = document.getElementById('testFailedFiles');
+            
+            uploadProgress.style.display = 'block';
+            uploadBtn.disabled = true;
+            
+            let uploaded = 0;
+            let failed = 0;
+            
+            // Simulate upload process
+            for (let i = 0; i < testSelectedFiles.length; i++) {
+                await new Promise(resolve => setTimeout(resolve, 500)); // Simulate upload delay
+                
+                // Simulate success/failure randomly
+                const success = Math.random() > 0.2; // 80% success rate
+                
+                if (success) {
+                    uploaded++;
+                    uploadedFiles.textContent = uploaded;
+                } else {
+                    failed++;
+                    failedFiles.textContent = failed;
+                }
+                
+                // Update progress
+                const progress = ((i + 1) / testSelectedFiles.length) * 100;
+                progressBar.style.width = progress + '%';
+            }
+            
+            // Show result
+            setTimeout(() => {
+                alert(`Test completat!\nÎncărcate: ${uploaded}\nEșuate: ${failed}`);
+                
+                // Reset
+                testSelectedFiles = [];
+                document.getElementById('testImagePreview').innerHTML = '';
+                document.getElementById('testTotalFiles').textContent = '0';
+                document.getElementById('testUploadStats').style.display = 'none';
+                uploadProgress.style.display = 'none';
+                uploadBtn.disabled = false;
+                progressBar.style.width = '0%';
+            }, 1000);
+        });
+    </script>
+</body>
+</html> 
