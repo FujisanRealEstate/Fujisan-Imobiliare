@@ -261,21 +261,37 @@ service cloud.firestore {
                 
                 const visitsRef = doc(db, "statistics", "visits");
                 
-                // Test increment
-                await updateDoc(visitsRef, {
-                    total: increment(1),
-                    lastUpdate: new Date().toISOString().split('T')[0]
-                });
-                log('Visit counter increment successful');
+                // First, check if document exists
+                const visitsDoc = await getDoc(visitsRef);
+                
+                if (!visitsDoc.exists()) {
+                    // Create the document if it doesn't exist
+                    log('Creating visits document...');
+                    await setDoc(visitsRef, {
+                        total: 1,
+                        lastUpdate: new Date().toISOString().split('T')[0],
+                        createdBy: currentUser.email,
+                        createdAt: new Date()
+                    });
+                    log('Visits document created successfully');
+                } else {
+                    // Update existing document
+                    log('Updating existing visits document...');
+                    await updateDoc(visitsRef, {
+                        total: increment(1),
+                        lastUpdate: new Date().toISOString().split('T')[0]
+                    });
+                    log('Visit counter increment successful');
+                }
                 
                 // Test read
-                const visitsDoc = await getDoc(visitsRef);
-                if (visitsDoc.exists()) {
-                    const data = visitsDoc.data();
+                const updatedDoc = await getDoc(visitsRef);
+                if (updatedDoc.exists()) {
+                    const data = updatedDoc.data();
                     log('Visit counter read successful. Total: ' + data.total);
                     visitStatus.innerHTML = `<div class="success">✅ Contor vizitatori funcționează! Total: ${data.total}</div>`;
                 } else {
-                    throw new Error('Visit counter document not found');
+                    throw new Error('Visit counter document not found after creation/update');
                 }
                 
             } catch (error) {
