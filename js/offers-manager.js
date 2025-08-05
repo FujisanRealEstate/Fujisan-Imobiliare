@@ -157,21 +157,26 @@ async function loadOffers(category = null) {
         let q = collection(db, "offers");
         
         if (category) {
-            q = query(q, where("category", "==", category), where("status", "==", "active"));
-        } else {
-            q = query(q, where("status", "==", "active"));
+            q = query(q, where("category", "==", category));
         }
-        
-        q = query(q, orderBy("createdAt", "desc"));
         
         const querySnapshot = await getDocs(q);
         offers = [];
         
         querySnapshot.forEach((doc) => {
+            const data = doc.data();
             offers.push({
                 id: doc.id,
-                ...doc.data()
+                ...data
             });
+        });
+        
+        // Sort offers by createdAt date (newest first)
+        offers.sort((a, b) => {
+            if (a.createdAt && b.createdAt) {
+                return b.createdAt.toDate() - a.createdAt.toDate();
+            }
+            return 0;
         });
         
         displayOffers();
