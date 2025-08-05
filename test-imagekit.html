@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test ImageKit Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #131313;
+            color: #939393;
+        }
+        .test-container {
+            background: #272727;
+            padding: 30px;
+            border-radius: 5px;
+            border: 1px solid #333;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #fff;
+            font-weight: 600;
+        }
+        input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #333;
+            border-radius: 5px;
+            background: #131313;
+            color: #939393;
+        }
+        button {
+            background: #2098f5;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #131313;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #131313;
+            border: 1px solid #333;
+            border-radius: 5px;
+        }
+        .image-preview {
+            margin-top: 15px;
+        }
+        .image-preview img {
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: 5px;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Test ImageKit Upload</h1>
+        <p>Acest test verifică funcționalitatea de upload a imaginilor către ImageKit.</p>
+        
+        <form id="uploadForm">
+            <div class="form-group">
+                <label for="images">Selectează imagini:</label>
+                <input type="file" id="images" multiple accept="image/*">
+            </div>
+            <button type="submit">Upload la ImageKit</button>
+        </form>
+        
+        <div class="result" id="result" style="display: none;">
+            <h3>Rezultat:</h3>
+            <div id="resultContent"></div>
+            <div class="image-preview" id="imagePreview"></div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const files = document.getElementById('images').files;
+            if (files.length === 0) {
+                alert('Te rog selectează cel puțin o imagine!');
+                return;
+            }
+            
+            const resultDiv = document.getElementById('result');
+            const resultContent = document.getElementById('resultContent');
+            const imagePreview = document.getElementById('imagePreview');
+            
+            resultContent.innerHTML = '<p>Se încarcă imaginile...</p>';
+            resultDiv.style.display = 'block';
+            imagePreview.innerHTML = '';
+            
+            try {
+                const imageUrls = await uploadImagesToImageKit(files);
+                
+                resultContent.innerHTML = `
+                    <p><strong>Succes!</strong> ${imageUrls.length} imagine(i) încărcată(e).</p>
+                    <p><strong>URL-uri:</strong></p>
+                    <ul>
+                        ${imageUrls.map(url => `<li><a href="${url}" target="_blank">${url}</a></li>`).join('')}
+                    </ul>
+                `;
+                
+                // Afișează preview-ul imaginilor
+                imageUrls.forEach(url => {
+                    const img = document.createElement('img');
+                    img.src = url;
+                    img.alt = 'Uploaded image';
+                    imagePreview.appendChild(img);
+                });
+                
+            } catch (error) {
+                resultContent.innerHTML = `
+                    <p><strong>Eroare:</strong> ${error.message}</p>
+                    <p>Detalii: ${error.stack}</p>
+                `;
+            }
+        });
+        
+        // Funcția de upload la ImageKit
+        async function uploadImagesToImageKit(files) {
+            const imageUrls = [];
+            const imageKitConfig = {
+                publicKey: 'public_UFJStOhYLxOl6tm4ku61BDsF+uo=',
+                urlEndpoint: 'https://ik.imagekit.io/biihsnqf1'
+            };
+            
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('publicKey', imageKitConfig.publicKey);
+                formData.append('fileName', `test_${Date.now()}_${i}`);
+                
+                try {
+                    const response = await fetch('https://upload.imagekit.io/api/v1/files/upload', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        throw new Error(`Upload failed: ${response.status} - ${errorText}`);
+                    }
+                    
+                    const result = await response.json();
+                    imageUrls.push(result.url);
+                } catch (error) {
+                    console.error('Error uploading image:', error);
+                    throw error;
+                }
+            }
+            
+            return imageUrls;
+        }
+    </script>
+</body>
+</html> 

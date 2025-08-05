@@ -5,15 +5,15 @@
     position: fixed;
     bottom: 30px;
     right: 30px;
-    background: linear-gradient(45deg, #4CAF50, #45a049);
+    background: #2098f5;
     color: white;
     border: none;
     padding: 15px 25px;
-    border-radius: 50px;
+    border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
     font-weight: 600;
-    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+    box-shadow: 0 4px 15px rgba(32, 152, 245, 0.3);
     transition: all 0.3s ease;
     z-index: 1000;
     display: flex;
@@ -22,8 +22,9 @@
 }
 
 .add-offer-btn:hover {
+    background: #131313;
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+    box-shadow: 0 8px 25px rgba(32, 152, 245, 0.4);
 }
 
 /* Modal Styles */
@@ -38,19 +39,17 @@
     justify-content: center;
     align-items: center;
     z-index: 2000;
-    backdrop-filter: blur(5px);
 }
 
 .modal-content {
-    background: white;
-    border-radius: 15px;
+    background: #272727;
+    border-radius: 5px;
     padding: 0;
     max-width: 600px;
     width: 90%;
     max-height: 90vh;
     overflow-y: auto;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    animation: modalSlideIn 0.3s ease;
 }
 
 @keyframes modalSlideIn {
@@ -65,36 +64,39 @@
 }
 
 .modal-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #131313;
     color: white;
     padding: 20px 30px;
-    border-radius: 15px 15px 0 0;
+    border-radius: 5px 5px 0 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-bottom: 1px solid #333;
 }
 
 .modal-header h3 {
     margin: 0;
-    font-size: 1.5em;
+    font-size: 24px;
+    line-height: 30px;
+    font-weight: normal;
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
 .close-btn {
-    background: rgba(255, 255, 255, 0.2);
+    background: #2098f5;
     border: none;
     color: white;
     padding: 8px 12px;
-    border-radius: 50%;
+    border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
     transition: all 0.3s ease;
 }
 
 .close-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: #131313;
     transform: scale(1.1);
 }
 
@@ -111,8 +113,9 @@
     display: block;
     margin-bottom: 8px;
     font-weight: 600;
-    color: #333;
+    color: #fff;
     font-size: 14px;
+    line-height: 25px;
 }
 
 .form-group input,
@@ -120,19 +123,21 @@
 .form-group textarea {
     width: 100%;
     padding: 12px 15px;
-    border: 2px solid #e1e5e9;
-    border-radius: 8px;
+    border: 1px solid #333;
+    border-radius: 5px;
     font-size: 14px;
     transition: all 0.3s ease;
     font-family: inherit;
+    background: #131313;
+    color: #939393;
+    line-height: 25px;
 }
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
     outline: none;
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    border-color: #2098f5;
 }
 
 .form-group textarea {
@@ -146,14 +151,14 @@
     justify-content: flex-end;
     margin-top: 30px;
     padding-top: 20px;
-    border-top: 1px solid #e1e5e9;
+    border-top: 1px solid #333;
 }
 
 .btn-primary,
 .btn-secondary {
     padding: 12px 24px;
     border: none;
-    border-radius: 8px;
+    border-radius: 5px;
     cursor: pointer;
     font-size: 14px;
     font-weight: 600;
@@ -164,13 +169,13 @@
 }
 
 .btn-primary {
-    background: linear-gradient(45deg, #4CAF50, #45a049);
+    background: #2098f5;
     color: white;
 }
 
 .btn-primary:hover {
+    background: #131313;
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
 }
 
 .btn-secondary {
@@ -179,7 +184,7 @@
 }
 
 .btn-secondary:hover {
-    background: #5a6268;
+    background: #131313;
     transform: translateY(-2px);
 }
 
@@ -209,18 +214,18 @@
 
 /* Offer Cards */
 .offer-card {
-    background: white;
-    border-radius: 15px;
+    background: #272727;
+    border-radius: 5px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
     margin-bottom: 30px;
     overflow: hidden;
     transition: all 0.3s ease;
-    border: 1px solid #e1e5e9;
+    border: 1px solid #333;
 }
 
 .offer-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    border-color: #2098f5;
 }
 
 .offer-images {
@@ -245,10 +250,11 @@
 }
 
 .offer-title {
-    font-size: 1.5em;
+    font-size: 24px;
+    line-height: 30px;
     margin-bottom: 15px;
-    color: #333;
-    font-weight: 600;
+    color: #fff;
+    font-weight: normal;
 }
 
 .offer-meta {
@@ -270,71 +276,74 @@
 }
 
 .offer-category.vanzare {
-    background: #d4edda;
-    color: #155724;
+    background: #2098f5;
+    color: #fff;
 }
 
 .offer-category.cumparare {
-    background: #d1ecf1;
-    color: #0c5460;
+    background: #4CAF50;
+    color: #fff;
 }
 
 .offer-category.inchiriere {
-    background: #fff3cd;
-    color: #856404;
+    background: #f76300;
+    color: #fff;
 }
 
 .offer-price {
-    background: linear-gradient(45deg, #667eea, #764ba2);
+    background: #2098f5;
     color: white;
     padding: 6px 12px;
-    border-radius: 20px;
+    border-radius: 5px;
     font-weight: 600;
     font-size: 14px;
 }
 
 .offer-location {
-    color: #666;
+    color: #939393;
     font-size: 14px;
     display: flex;
     align-items: center;
     gap: 5px;
+    line-height: 25px;
 }
 
 .offer-description {
-    color: #555;
-    line-height: 1.6;
+    color: #939393;
+    line-height: 25px;
     margin-bottom: 15px;
     font-size: 14px;
 }
 
 .offer-contact {
-    background: #f8f9fa;
+    background: #131313;
     padding: 10px 15px;
-    border-radius: 8px;
+    border-radius: 5px;
     margin-bottom: 15px;
-    color: #495057;
+    color: #939393;
     font-weight: 500;
     display: flex;
     align-items: center;
     gap: 8px;
+    border: 1px solid #333;
 }
 
 .offer-date {
-    color: #6c757d;
+    color: #939393;
     font-size: 12px;
     display: flex;
     align-items: center;
     gap: 5px;
     margin-bottom: 15px;
+    line-height: 25px;
 }
 
 .delete-offer-btn {
-    background: linear-gradient(45deg, #dc3545, #c82333);
+    background: #dc3545;
     color: white;
     border: none;
     padding: 8px 16px;
-    border-radius: 6px;
+    border-radius: 5px;
     cursor: pointer;
     font-size: 12px;
     font-weight: 600;
@@ -345,8 +354,8 @@
 }
 
 .delete-offer-btn:hover {
+    background: #131313;
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);
 }
 
 /* Responsive Design */

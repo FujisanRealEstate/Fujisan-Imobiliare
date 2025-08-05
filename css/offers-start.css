@@ -1,0 +1,31 @@
+/* Offers Section Styles */
+.offers-section {
+    /* background: #131313; */
+    padding: 60px 0;
+    /* margin-top: 40px; */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 36px;
+    line-height: 45px;
+    margin-bottom: 40px;
+    color: #fff;
+    font-weight: normal;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    letter-spacing: -1px;
+    margin-left: 50%;
+}
+
+.section-title i {
+    color: #2098f5;
+}

@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <title>Fujisan | Vanzari</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
 <link rel="icon" href="images/bama.png" type="image/x-icon">
 <meta charset="utf-8">
 <link rel="stylesheet" type="text/css" media="screen" href="css/reset.css">
@@ -15,6 +13,8 @@
 <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <link rel="stylesheet" href="css/offers.css">
+<link rel="stylesheet" href="css/search-styles.css">
+<link rel="stylesheet" href="css/offers-start.css">
 <script src="js/jquery-1.7.min.js"></script>
 <script src="js/jquery.easing.1.3.js"></script>
 <script src="js/cufon-yui.js"></script>
@@ -48,51 +48,21 @@ $(document)
     })
 });
 function myFunction() {
-  var input = document.getElementById("myInput");
-  var filter = input.value.toUpperCase();
-  var lists = document.querySelectorAll(".search-list");
-  
-  lists.forEach(function(ul) {
-    var li = ul.getElementsByTagName("li");
-    for (var i = 0; i < li.length; i++) {
-      var a = li[i].getElementsByTagName("a")[0];
-      var txtValue = a.textContent || a.innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        li[i].style.display = "";
-      } else {
-        li[i].style.display = "none";
-      }
-    }
-  });
-}
-
-/* Offers Section Styles */
-.offers-section {
-    background: #f8f9fa;
-    padding: 60px 0;
-    margin-top: 40px;
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-.section-title {
-    text-align: center;
-    font-size: 2.5em;
-    margin-bottom: 40px;
-    color: #333;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-}
-
-.section-title i {
-    color: #667eea;
-}
+            var input = document.getElementById("myInput");
+            var filter = input.value.toUpperCase();
+            var ul = document.getElementById("myUL");
+            var li = ul.getElementsByTagName("li");
+            
+            for (var i = 0; i < li.length; i++) {
+              var a = li[i].getElementsByTagName("a")[0];
+              var txtValue = a.textContent || a.innerText;
+              if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+              } else {
+                li[i].style.display = "none";
+              }
+            }
+          }
 </script>
 <!--[if lt IE 9]>
 <script src="js/html5.js"></script>
@@ -150,404 +120,49 @@ function myFunction() {
   <!--==============================content================================-->
   <section id="content">
     <div class="container_12">
+      <!-- Search Section - Moved to top -->
+      <div class="search-section">
+        <div class="search-container-main">
+          <h2 class="search-title-main">
+            <i class="fas fa-search search-icon-main"></i>
+            Cauta Oferte
+          </h2>
+          <div class="search-box-main">
+            <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Caută după nume, locație sau tip de proprietate..." title="Introdu un nume pentru căutare" class="search-input-main">
+            <i class="fas fa-search input-icon-main"></i>
+          </div>
+          <ul id="myUL" class="search-results-main">
+            <!-- Search results will be populated dynamically -->
+          </ul>
+        </div>
+      </div>
+      
       <div class="grid_8">
-        <h2 class="top-1 p3">Ofertele noastre</h2>
-        <h2 class="top-2 p3" id="section20"> De vanzare casa situata in Balota, Valcea</h2>
-        <div class="wrap"> <img src="Oferte/Casa Balota/Poze/Folder nou/2.jpeg" alt="" width="605">
-          <div class="extra-wrap">
-            <p class="color-1 p6">&nbsp; </p>
+        <!-- Offers Section -->
+        <section class="offers-section">
+          <div class="container">
+            <h2 class="section-title">
+              <i class="fas fa-home"></i>
+              Oferte de Vanzare
+            </h2>
+            <div id="offersContainer">
+              <!-- Offers will be loaded here dynamically -->
             </div>
-        </div>
-        <p class="color-1 p6">
-          De vanzare casa renovată în interior, situată în Balota, Vâlcea, la 45 km de Râmnicu Vâlcea. 
-          Proprietatea include o casă de 73 mp cu 3 camere, baie și WC, plus un hambar de 54 mp și o grădină generoasă, având o suprafață totală de 2234 mp. 
-          Casa dispune de cadastru și este ideală pentru cei care caută un loc liniștit în mijlocul naturii, cu un spațiu amplu pentru grădinărit sau relaxare. 
-          Prețul proprietății este de 38.000 euro.
-        </p>
-        <a href="Casa Balota.html" class="button">Vezi imagini</a>
-        <div class="wrap">
-          <div class="extra-wrap">
           </div>
-        </div>
-        <h2 class="top-2 p3" id="section21">De vanzare duplex nou, 10 ani, la 10 km de Ramnicu Valcea</h2>
-        <div class="wrap"> <img src="Oferte/Casa Cazanesti/Poze/WhatsApp Image 2025-01-21 at 15.56.29 (2).jpeg" alt="" width="605">
-          <div class="extra-wrap">
-            <p class="color-1 p6">&nbsp; </p>
-            </div>
-        </div>
-        <p class="color-1 p6">
-          De vanzare duplex nou, 10 ani, la 10 km de Ramnicu Valcea, aproape de Mihaesti. Suprafata este de 170mp, P+E, suprafata  teren de 500 mp. Pret de 170000€, negociabil.</p>
-        <div class="wrap">
-          <div class="extra-wrap">
-          </div>
-        </div>
-        <!-- <h2 class="top-2 p3" id="section21">De vanzare teren intravilan in  Daesti</h2>
-        <div class="wrap"> <img src="Oferte/Teren Daesti/Poze/2.png" alt="" width="605">
-          <div class="extra-wrap">
-            <p class="color-1 p6">&nbsp; </p>
-            </div>
-        </div>
-        <p class="color-1 p6">
-          De vânzare teren în Dăești, Vâlcea – 1.100 mp, intravilan, cu deschidere de 31 m la stradă. 
-          Priveliste frumoasă, utilități: curent electric, apă, gaze în viitor. 
-          Teren cu pantă ușoară, împrejmuit, cadastru. Preț: 17.000€.</p>
-          <a href="Teren Daesti.html" class="button">Vezi imagini</a>
-        <div class="wrap">
-          <div class="extra-wrap">
-          </div>
-        </div> -->
-        <h2 class="top-2 p3" id="section22">De vanzare teren intravilan in Budesti, Valcea</h2>
-        <div class="wrap"> <img src="Oferte/Teren Budesti/WhatsApp Image 2024-11-21 at 16.22.59.jpeg" alt="" width="605">
-          <div class="extra-wrap">
-            <p class="color-1 p6">&nbsp; </p>
-            </div>
-        </div>
-        <p class="color-1 p6">De vânzare teren în Budești, Vâlcea – 3.150 mp, 22 m deschidere la stradă, preț 35€/mp. Ideal pentru construcții, firme sau utilizare personală. Dispune de cadastru. </p>
-        <div class="wrap">
-          <div class="extra-wrap">
-          </div>
-        </div>
-        <h2 class="top-2 p3" id="section17">De vanzare teren intravilan in Maciuca, Valcea</h2>
-        <div class="wrap"> <img src="Oferte/Teren Maciuca/Poza1.PNG" alt="" width="605">
-          <div class="extra-wrap">
-            <p class="color-1 p6">&nbsp; </p>
-            </div>
-        </div>
-        <p class="color-1 p6">De vânzare teren intravilan în Măciuca, Vâlcea, situat în zonă de șes,
-
-          la doar 300 de metri de centrul localității. Terenul are o deschidere de 10 metri la drum și o adâncime de 915 metri, ideal pentru construcții civile,
-           hale industriale sau alte proiecte de dezvoltare. 
-          Suprafața este plană, ceea ce facilitează proiectele de construcție, 
-          și beneficiază de acces facil la rețelele de curent electric și apă. Terenul este cadastrat,iar prețul este foarte avantajos: doar 1 euro/mp. </p>
-        <div class="wrap">
-          <div class="extra-wrap">
-          </div>
-        </div>
-        <h2 class="top-2 p3" id="section12">De vanzare Apartament centru, 2 camere</h2>
-        <div class="wrap"> <img src="Oferte/Apartament centru/4.PNG" alt="" width="605">
-          <div class="extra-wrap">
-            <p class="color-1 p6">&nbsp; </p>
-            </div>
-        </div>
-        <p class="color-1 p6">De vanzare apartament cu 2 camere, amplasat in zona centrala, 
-          etaj 4 din 4, pozitionat catre rasarit, cu incalzire verticala, stare foarte buna.
-          55000€</p>
-          <a href="Apartament,etaj4.html" class="button">Vezi imagini</a>
-        <div class="wrap">
-          <div class="extra-wrap">
-          </div>
-        </div>
-        <h2 class="top-2 p3" id="section18">De vanzare teren intravilan ,Cerna-Maciuca, Valcea</h2>
-        <div class="wrap"> <img src="Oferte/Teren Cerna_Maciuca/2024-10-25 (3).png" alt="" width="605">
-          <div class="extra-wrap">
-            <p class="color-1 p6">&nbsp; </p>
-            </div>
-        </div>
-        <p class="color-1 p6">De vânzare teren în zona Cerna, comuna Măciuca, situat la 1 km de centrul localității. Suprafața totală a terenului este de 5124 mp, din care zona de la intrare este intravilan. 
-          Terenul nu are ieșire directă la drum asfaltat, fiind potrivit în special pentru utilizare agricolă sau alte activități în aer liber. Prețul este atractiv: 1 euro/mp. 
-       </p>
-        <div class="wrap">
-          <div class="extra-wrap">
-          </div>
-        </div>
-        <h2 class="top-2 p3" id="section19">De vanzare teren intravilan ,Maciuca, cu padure de stejar</h2>
-        <div class="wrap"> <img src="Oferte/Teren Padure Maciuca/poza1.PNG" alt="" width="605">
-          <div class="extra-wrap">
-            <p class="color-1 p6">&nbsp; </p>
-            </div>
-        </div>
-        <p class="color-1 p6">De vânzare teren cu pădure în Măciuca, Vâlcea, având o suprafață totală de 2500 mp. Terenul este drept, cu o ușoară pantă la extremitate, și se află la doar 100 m de drumul asfaltat, oferind acces facil. 
-          Pe teren se găsesc 100 mp de pădure de stejar, ideală pentru cei care își doresc un loc liniștit și înconjurat de natură. Terenul este cadastrat, iar prețul este de 10.500 euro. </p>
-        <div class="wrap">
-          <div class="extra-wrap">
-          </div>
-        </div>
-        <h2 class="top-2 p3" id="section5">Apartament Ostroveni, 4 camere</h2>
-        <div class="wrap"> <img src="Oferte/Apartament Ostroveni/Poze/2.jpeg" alt="" width="605">
-          <div class="extra-wrap">
-            <p class="color-1 p6">&nbsp; </p>
-            </div>
-        </div>
-        <p class="color-1 p6">De vanzare apartament 4 camere, Ostroveni, etaj 10, renovat, mobila noua, 
-          frigider, balcon inchis, termopane,
-          frigider, combina frigorifica, lada frigorifica cu 5 sertare, masina de spalat rufe, plita-cuptor,
-          centrala noua, cu instalatie pe cupru, aer conditionat, tv plasma in toate camerele, cablu internet-fibra optica,
-          boxa comuna pe etaj, lift(V), gresie, faianta, termopane, usi noi interioare, usa metalica la intrare. 
-          NU necesita investitie noua.(liber), 64 mp, 66000€.
-          </p>
-        <a href="Apartament4camere.html" class="button">Vezi imagini</a>
-        <div class="wrap">
-          <div class="extra-wrap">
-          </div>
-        </div>
-        <h2 class="top-2 p3" id="section13">De vanzare spatiu comercial in centru</h2>
-        <div class="wrap"> <img src="Oferte/Bar vanzare/po-transformed.png" alt="" width="605">
-          <div class="extra-wrap">
-            <p class="color-1 p6">&nbsp; </p>
-            </div>
-        </div>
-        <p class="color-1 p6">De vanzare spatiu comercial zona centrala, dotat pentru functionarea unui bar, zona cu vad, zona aglomerata.
-          Pret: 300000€</p>
-        <div class="wrap">
-          <div class="extra-wrap">
-          </div>
-        </div>
-        <h2 class="top-2 p3" id="section16">Apartament Libertatii, 3 camere</h2>
-        <div class="wrap"> <img src="Oferte/Apartament Kaufland/2-GyBl1Cbpw-transformed.png" alt="" width="605">
-          <div class="extra-wrap">
-            <p class="color-1 p6">&nbsp; </p>
-            </div>
-        </div>
-        <p class="color-1 p6">De vanzare apartament cu 3 camere, etaj 2, zona Libertatii, suprafata de 85mp. Are 2 dormitoare, baie, bucatarie, living, dressing, balcon. Pret: 90000€, negociabil.</p>
-        <a href="#" class="button">Vezi imagini</a>
-        <div class="wrap">
-          <div class="extra-wrap">
-          </div>
-        </div>
-        <h2 class="top-2 p3" id="section9">Cladire afaceri</h2>
-        <div class="wrap"> <img src="Oferte/Hala Valcea/2-ObEDY0gVm-transformed.png" alt="" width="605">
-          <div class="extra-wrap">
-            <p class="color-1 p6">&nbsp; </p>
-            </div>
-        </div>
-        <p class="color-1 p6">Spațiu Comercial de Vânzare în Centru,
-          suprafață totală: 1200 mp
-          ,compartimentare: demisol, parter, etaj și mansardă
-          ,la etaj se afla 7 birouri.
-          Preț: 800.000€</p>
-        <div class="wrap">
-          <div class="extra-wrap">
-          </div>
-        </div>
-        <h2 class="top-2 p3" id="section7">De vanzare case, apartamente cu 2 sau 3 camere</h2>
-        <div class="wrap"> <img src="Oferte/Budesti oferte/Poze/1.PNG" alt="" width="605">
-          <div class="extra-wrap">
-            <p class="color-1 p6">&nbsp; </p>
-            </div>
-        </div>
-        <p class="color-1 p6">De vanzare case, apartamente cu 2 sau 3 camere, la 5 km de Ramnicu Valcea.Casele au parter si etaj,
-          3 dormitoare, 2 bai, bucatarie, 125mp utili, 145mp total. Apartamentele cu 2 camere au suprafata
-          de 52mp si costa 54000€, iar cele cu 3 camere au suprafata de 80mp si costa 79000€. Ambele tipuri
-          de apartamente au loc de parcare inclus.</p>
-        <a href="#" class="button">Vezi imagini</a>
-        <div class="wrap">
-          <div class="extra-wrap">
-          </div>
-        </div>
-        <h2 class="top-2 p3" id="section10">Cladire afaceri Neptun</h2>
-        <div class="wrap"> <img src="Oferte/Hala Neptun/1-CeoCiUYbb-transformed.png" alt="" width="605">
-          <div class="extra-wrap">
-            <p class="color-1 p6">&nbsp; </p>
-            </div>
-        </div>
-        <p class="color-1 p6">Spațiu Comercial de Vânzare în Stațiunea Neptun
-          ,suprafață totală: 411 mp
-          ,caracteristici: cadastru și intabulare
-          ,utilități: complet utilat, cuptor pe lemne
-          ,bucătărie: 100 mp
-          ,facilități: posibilitate cazare personal
-          ,deschidere la stradă: 30 m.
-          Preț: 850.000€, negociabil</p>
-        <div class="wrap">
-          <div class="extra-wrap">
-          </div>
-        </div>
-        <h2 class="top-2 p3" id="section15">Casa in Nord</h2>
-        <div class="wrap"> <img src="Oferte/Casa pe Strada Campului/Foto.PNG" alt="" width="605">
-          <div class="extra-wrap">
-            <p class="color-1 p6">&nbsp; </p>
-            </div>
-        </div>
-        <p class="color-1 p6">De vanzare casa in nord, langa Kaufland, suprafata de 89mp. aceasta beneficiaza de beci, terasa,
-          termopane, 2 intrari, 3 camere, baie, bucatarie, porti metalice, teren 450mp. Pret:150000€
-        </p>
-        <div class="wrap">
-          <div class="extra-wrap">
-          </div>
-        </div>
-        <h2 class="top-2 p3" id="section14">De vanzare 2 apartamente si 2 garsoniere Saturn</h2>
-        <div class="wrap"> <img src="Oferte/2 camere, 2 garsoniere, Saturn/Poze/3.jpeg" alt="" width="605">
-          <div class="extra-wrap">
-            <p class="color-1 p6">&nbsp; </p>
-            </div>
-        </div>
-        <p class="color-1 p6">De vanzare 2 apartamente si 2 garsoniere statiunea Saturn,judetul Constanta suprafata de 140mp.Are parter si etaj, 60mp la etaj.
-          Ideal pentru afacere sa inchirieri pentru turisti. Pret:200000€</p>
-        <a href="Saturn.html" class="button">Vezi imagini</a>
-        <div class="wrap">
-          <div class="extra-wrap">
-          </div>
-        </div>
-        <h2 class="top-2 p3" id="section2">Teren Caciulata</h2>
-        <div class="wrap"> <img src="Oferte/Caciulata teren/poze/poza2.jpg" alt="" width="605">
-          <div class="extra-wrap">
-            <p class="color-1 p6">&nbsp; </p>
-            </div>
-        </div>
-        <p class="color-1 p6">De vanzare teren 470mp,Caciulata, deschidere la drum, zona turistica,5600€.</p>
-        <a href="Caciulata.html" class="button">Vezi imagini</a>
-        <div class="wrap">
-          <div class="extra-wrap">
-          </div>
-        </div>
-        <h2 class="top-2 p3" id="section8">De vanzare casa judetul Arges</h2>
-      <div class="wrap"> <img src="Oferte/Casa Ciofrangeni/Poze/2.jpeg" alt="" width="605">
-        <div class="extra-wrap">
-          <p class="color-1 p6">&nbsp; </p>
-          </div>
-      </div>
-      <p class="color-1 p6">De vanzare casa comuna Ciofrangeni, judetul Arges, 149000€.</p>
-      <a href="Ciofrangeni.html" class="button">Vezi imagini</a>
-      <div class="wrap">
-        <div class="extra-wrap">
-        </div>
-      </div>
-      <h2 class="top-2 p3" id="section11">De vanzare apartament Ostroveni, 3 camere</h2>
-        <div class="wrap"> <img src="Oferte/Apartament Ostroveni in C/3.PNG" alt="" width="605">
-          <div class="extra-wrap">
-            <p class="color-1 p6">&nbsp; </p>
-            </div>
-        </div>
-        <p class="color-1 p6">De vanzare apartament Ostroveni-3 camere, parter, ideal pentru firma, 70000€.</p>
-        <div class="wrap">
-          <div class="extra-wrap">
-          </div>
-        </div>
-        <h2 class="top-1 p3" id="section1">Teren Bujoreni</h2>
-        <div class="wrap">
-          <div class="pc-only">
-           <img src="Oferte/Bujoreni/poze/WhatsApp Image 2024-01-24 at 21.08.20 (1).jpeg" alt="" height="400" >  <img src="Oferte/Bujoreni/poze/WhatsApp Image 2024-01-24 at 21.08.23.jpeg" alt="" height="400" ></div>
-           <div class="mobile-only">
-          <img src="Oferte/Bujoreni/poze/WhatsApp Image 2024-01-24 at 21.08.20 (1).jpeg" alt="" height="400" class="mobile-only"></div>
-          <div class="extra-wrap">
-            <p class="color-1 p6">&nbsp; </p>
-            </div>
-        </div>
-        <p class="color-1 p6">De vanzare teren la Bujoreni, 2300 mp, 35 €/mp, negociabil. </p>
-        <a href="Bujoreni.html" class="button">Vezi imagini</a>
-        <h2 class="top-2 p3" id="section3">Teren Balcesti</h2>
-        <div class="wrap"> <img src="Oferte/Balcesti/poze/poza1.jpg" alt="" width="605">
-          <div class="extra-wrap">
-            <p class="color-1 p6">&nbsp; </p>
-            </div>
-        </div>
-        <p class="color-1 p6">De vanzare teren Balcesti, jud. Valcea, intravilan, extravilan, 17800 mp, 170000€.</p>
-        <div class="wrap">
-          <div class="extra-wrap">
-          </div>
-        </div>
-        <h2 class="top-2 p3" id="section4">Teren Pausesti Maglasi, Coasta</h2>
-        <div class="wrap"> <img src="Oferte/Pausesti Maglasi/poze/poza1.jpg" alt="" width="605">
-          <div class="extra-wrap">
-            <p class="color-1 p6">&nbsp; </p>
-            </div>
-        </div>
-        <p class="color-1 p6">De vanzare teren extravilan, Pausesti-Maglasi, Coasta, 1821 mp,22000€.</p>
-        <div class="wrap">
-          <div class="extra-wrap">
-          </div>
-        </div>
-        
-        <h2 class="top-2 p3" id="section6">Hala judetul Neamt</h2>
-        <div class="wrap"> <img src="Oferte/Hala Neamt/Poze/WhatsApp Image 2024-05-02 at 22.20.02.jpeg" alt="" width="605">
-          <div class="extra-wrap">
-            <p class="color-1 p6">&nbsp; </p>
-            </div>
-        </div>
-        <p class="color-1 p6">De vanzare spatiu industrial in judetul Neamt, 8120 mp, curte betonata, birouri si cladiri. Dispune de apa, canalizare, curent 380 W, gaz, acces usor prin drum asfaltat. Detine o  hala mare, 2 mai mici, magazii, spatiu de cazare. Pret discutabil.</p>
-        <a href="Hala.html" class="button">Vezi imagini</a>
-        <div class="wrap">
-          <div class="extra-wrap">
-          </div>
-        </div>
+        </section>
       </div>
       <div class="grid_4">
         <div class="left-1">
-          <h2 class="top-1 p3"><img src="images/Lupa.png" class="class9">Cauta</h2>
-         </div>
-  
-         <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Caută după nume..." title="Introdu un nume pentru căutare" style="padding-left: 30px; width: 100%; font-size: 16px; padding: 12px; border: 1px solid #ddd; margin-bottom: 12px; box-sizing: border-box;" class="fa fa-search">
-  
-  <ul id="myUL" style="list-style-type: none; padding: 0; margin: 0;">
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section14" class="a">2 apartamente si 2 garsoniere Saturn</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section12" class="a">Apartament 2 camere, Centru</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section11" class="a">Apartament 3 camere, Ostroveni</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section16" class="a">Apartament 3 camere, Libertatii</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section5" class="a">Apartament 4 Camere, Ostroveni</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section17" class="a">Teren Maciuca</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section22" class="a">Teren Budesti</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section20" class="a">Casa Balota</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section21" class="a">Duplex spre Mihaesti</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section18" class="a">Teren Cerna , Maciuca</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section19" class="a">Teren Maciuca + padure</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section2" class="a">Teren Caciulata</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section8" class="a">Casa Ciofrangeni</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section15" class="a">Casa in Nord</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section7" class="a">Case si apartamente </a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section9" class="a">Cladire afaceri </a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section6" class="a">Hala Judetul Neamt </a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section3" class="a">Teren Balcesti</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section1" class="a">Teren Bujoreni</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section2" class="a">Teren Caciulata</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section4" class="a">Teren Pausesti Maglasi</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section10" class="a">Spatiu Comercial Neptun</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section13" class="a">Spatiu Comercial Central</a></li>
-  </ul>
-      </div>
-      <div class="grid_14">
-        <div class="left-1">
-          <h2 class="top-1 p3"><img src="images/Lupa.png" class="class9">Cauta</h2>
-         </div>
-
-         <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Caută după nume..." title="Introdu un nume pentru căutare" style="padding-left: 30px; width: 100%; font-size: 16px; padding: 12px; border: 1px solid #ddd; margin-bottom: 12px; box-sizing: border-box;" class="fa fa-search">
-
-<ul id="myUL" style="list-style-type: none; padding: 0; margin: 0;">
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section14" class="a">2 apartamente si 2 garsoniere Saturn</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section12" class="a">Apartament 2 camere, Centru</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section11" class="a">Apartament 3 camere, Ostroveni</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section16" class="a">Apartament 3 camere, Libertatii</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section5" class="a">Apartament 4 Camere, Ostroveni</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section17" class="a">Teren Maciuca</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section22" class="a">Teren Budesti</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section20" class="a">Casa Balota</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section21" class="a">Duplex spre Mihaesti</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section2" class="a">Teren Caciulata</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section18" class="a">Teren Cerna , Maciuca</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section19" class="a">Teren Maciuca + padure</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section8" class="a">Casa Ciofrangeni</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section15" class="a">Casa in Nord</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section7" class="a">Case si apartamente </a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section9" class="a">Cladire afaceri </a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section6" class="a">Hala Judetul Neamt </a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section3" class="a">Teren Balcesti</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section1" class="a">Teren Bujoreni</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section2" class="a">Teren Caciulata</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section4" class="a">Teren Pausesti Maglasi</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section10" class="a">Spatiu Comercial Neptun</a></li>
-  <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section13" class="a">Spatiu Comercial Central</a></li>
-</ul>
+          <!-- Additional content can go here -->
+        </div>
       </div>
       <div class="clear"></div>
     </div>
-
-    <!-- Offers Section -->
-    <section class="offers-section">
-      <div class="container">
-        <h2 class="section-title">
-          <i class="fas fa-home"></i>
-          Oferte de Vânzare
-        </h2>
-        <div id="offersContainer">
-          <!-- Offers will be loaded here -->
-        </div>
-      </div>
-    </section>
-
   </section>
 </div>
 <!--==============================footer=================================-->
 <footer>
-  <a href="https://www.firmadeaur.ro/company/agentia-imobiliara-fujisan-1970173" target="_blank" class="link"><img src="https://www.firmadeaur.ro/company-image/1970173-dark.png" alt="AGENTIA IMOBILIARA FUJISAN - Rm.Valcea" title="AGENTIA IMOBILIARA FUJISAN - Rm.Valcea" class="class10">
+  <a href="https://www.firmadeaur.ro/company/agentia-imobiliara-fujisan-1970173" target="_blank" class="link"><img src="https://www.firmadeaur.ro/company-image/1970173-dark.png" alt="AGENTIA IMOBILIARA FUJISAN - Rm.Valcea" title="AGENTIA IMOBILIARA FUJISAN - Rm.Valcea" class="class10">
   </a>
   <a href="https://www.soimiitraducerilor.ro/profile-14636-ba-ma-traduceri-autorizate-44-limbi-urgente" target="_blank" class="link1"><img src="https://www.soimiitraducerilor.ro/images/medals/14636/laureat300_gold_ro.png"  alt="BA-MA TRADUCERI AUTORIZATE - 44 LIMBI(URGENȚE) -  Râmnicu Vâlcea" title="BA-MA TRADUCERI AUTORIZATE - 44 LIMBI(URGENȚE) -  Râmnicu Vâlcea" class="class10"></a>
   <p class="written">made by Ba-Ma services</p>
@@ -571,7 +186,18 @@ function myFunction() {
   document.getElementById("scrollToTopBtn").onclick = function() {
       window.scrollTo({top: 0, behavior: 'smooth'});
   };</script>
-   <script>
+  
+  <!-- Load offers for this page -->
+  <script type="module">
+    import { loadOffers } from './js/offers-manager.js';
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      loadOffers('vanzare');
+    });
+  </script>
+  
+  
+  <script>
     var swiper = new Swiper('.swiper-container', {
         speed: 800,
         pagination: {
@@ -590,23 +216,8 @@ function myFunction() {
         effect: 'slide',
         grabCursor: true,
     });
-    </script>
-<script>Cufon.now();</script>
-<script>Cufon.now();</script>
-<script type="module" src="js/offers-manager.js"></script>
-<script type="module">
-    // Load offers for selling page
-    import { loadOffers } from './js/offers-manager.js';
-    
-    // Load selling offers when page loads
-    document.addEventListener('DOMContentLoaded', function() {
-        // Load offers for selling category
-        setTimeout(() => {
-            if (typeof loadOffers === 'function') {
-                loadOffers('vanzare');
-            }
-        }, 1000);
-    });
-</script>
+  </script>
+  
+  <script>Cufon.now();</script>
 </body>
 </html>

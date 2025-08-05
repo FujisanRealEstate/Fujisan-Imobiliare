@@ -13,6 +13,8 @@
 <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <link rel="stylesheet" href="css/offers.css">
+<link rel="stylesheet" href="css/search-styles.css">
+<link rel="stylesheet" href="css/offers-start.css">
 <script src="js/jquery-1.7.min.js"></script>
 <script src="js/jquery.easing.1.3.js"></script>
 <script src="js/cufon-yui.js"></script>
@@ -118,101 +120,44 @@ function myFunction() {
   <!--==============================content================================-->
   <section id="content">
     <div class="container_12">
+      <!-- Search Section - Moved to top -->
+      <div class="search-section">
+        <div class="search-container-main">
+          <h2 class="search-title-main">
+            <i class="fas fa-search search-icon-main"></i>
+            Cauta Oferte
+          </h2>
+          <div class="search-box-main">
+            <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Caută după nume, locație sau tip de proprietate..." title="Introdu un nume pentru căutare" class="search-input-main">
+            <i class="fas fa-search input-icon-main"></i>
+          </div>
+          <ul id="myUL" class="search-results-main">
+            <!-- Search results will be populated dynamically -->
+          </ul>
+        </div>
+      </div>
+      
       <div class="grid_8">
-        <h2 class="top-1 p3">Ofertele noastre</h2>
-        <h2 class="top-2 p3" id="section4">De inchiriat casa cu teren zona 1 Mai</h2>
-        <div class="wrap"> <img src="Oferte/Casa Inchiriere Autogara/poza.png" alt="" width="605">
-          <div class="extra-wrap">
-            <p class="color-1 p6">&nbsp; </p>
+        <!-- Offers Section -->
+        <section class="offers-section">
+          <div class="container">
+            <h2 class="section-title">
+              <i class="fas fa-key"></i>
+              Oferte de Inchiriere
+            </h2>
+            <div id="offersContainer">
+              <!-- Offers will be loaded here dynamically -->
             </div>
-        </div>
-        <p class="color-1 p6">De inchiriat casa langa autogara din 1 Mai.Aceasta vine cu toate facilitatile , incalzire, curte
-          pentru parcare. Suprafata casei  este de 80mp, iar cea totala de 700mp. Ideala pentru birouri, cresa, magazin. Pret:450€/luna</p>
-        <div class="wrap">
-          <div class="extra-wrap">
           </div>
-        </div>
-        <h2 class="top-2 p3" id="section3">De inchiriat spatiu comercial langa River Plaza Mall</h2>
-        <div class="wrap"> <img src="Oferte/Spatiu Queeen Inchiriere/poza1.png" alt="" width="605">
-          <div class="extra-wrap">
-            <p class="color-1 p6">&nbsp; </p>
-            </div>
-        </div>
-        <p class="color-1 p6">De inchiriat spatiu comercial in centru, aproape de River Plaza Mall. Acesta vine cu toate facilitatile,
-          totul este renovat, are sistem de alarma.Suprafata totala de 56mp. Ideal pentru magazin, cosmetica, frizerie...
-          Pret: 450€/luna</p>
-        <div class="wrap">
-          <div class="extra-wrap">
-          </div>
-        </div>
-        <h2 class="top-2 p3" id="section2">De inchiriat spatiu comercial central</h2>
-        <div class="wrap"> <img src="Oferte/Bar inchiriere/po-transformed.png" alt="" width="605">
-          <div class="extra-wrap">
-            <p class="color-1 p6">&nbsp; </p>
-            </div>
-        </div>
-        <p class="color-1 p6">De inchiriat spatiu comercial zona centrala, dotat pentru functionarea unui bar, zona cu vad.
-          Pret: 1000€/luna</p>
-        <div class="wrap">
-          <div class="extra-wrap">
-          </div>
-        </div>
-        <h2 class="top-2 p3" id="section1">De inchiriat spatiu comercial in centru </h2>
-        <div class="wrap"> <img src="Oferte/Romanor/Poze/poza1.jpg" alt="" width="605">
-          <div class="extra-wrap">
-            <p class="color-1 p6">&nbsp; </p>
-            </div>
-        </div>
-        <p class="color-1 p6">De inchiriat spatiu comercial in cerntru, parter, 100 mp, cladire bussines de clasa A+, 
-          termopane, centrala ,bucatarie mobilata, gresie , faianta,aer conditionat, 
-          supravegheata video,loc de fumat, locuri de parcare cu plata. 
-          3500 lei/luna pentru spatiu + 200 lei/luna pentru un loc de parcare</p>
-        <a href="Romanor.html" class="button">Vezi imagini</a>
-        <div class="wrap">
-          <div class="extra-wrap">
-          </div>
-        </div>
-       </div>
+        </section>
+      </div>
       <div class="grid_4">
         <div class="left-1">
-          <h2 class="top-1 p3"><img src="images/Lupa.png"  class="class9">Cauta</h2>
-          <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Caută după nume..." title="Introdu un nume pentru căutare" style="padding-left: 30px; width: 100%; font-size: 16px; padding: 12px; border: 1px solid #ddd; margin-bottom: 12px; box-sizing: border-box;" class="fa fa-search">
-
-          <ul id="myUL" style="list-style-type: none; padding: 0; margin: 0;">
-            <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section4" class="a">Casa zona 1 Mai</a></li>
-            <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section1" class="a">Spatiu comercial centru</a></li>
-            <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section2" class="a">Spatiu comercial central</a></li>
-            <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section3" class="a">Spatiu comercial langa Mall</a></li>
-           </div>
-      </div>
-      <div class="grid_14">
-        <div class="left-1">
-          <h2 class="top-1 p3"><img src="images/Lupa.png"  class="class9">Cauta</h2>
-          <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Caută după nume..." title="Introdu un nume pentru căutare" style="padding-left: 30px; width: 100%; font-size: 16px; padding: 12px; border: 1px solid #ddd; margin-bottom: 12px; box-sizing: border-box;" class="fa fa-search">
-
-          <ul id="myUL" style="list-style-type: none; padding: 0; margin: 0;">
-            <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section4" class="a">Casa zona 1 Mai</a></li>
-            <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section1" class="a">Spatiu comercial centru</a></li>
-            <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section2" class="a">Spatiu comercial central</a></li>
-            <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;"><a href="#section3" class="a">Spatiu comercial langa Mall</a></li>
-           </div>
+          <!-- Additional content can go here -->
+        </div>
       </div>
       <div class="clear"></div>
     </div>
-
-    <!-- Offers Section -->
-    <section class="offers-section">
-      <div class="container">
-        <h2 class="section-title">
-          <i class="fas fa-key"></i>
-          Oferte de Închiriere
-        </h2>
-        <div id="offersContainer">
-          <!-- Offers will be loaded here -->
-        </div>
-      </div>
-    </section>
-
   </section>
 </div>
 <!--==============================footer=================================-->
@@ -241,36 +186,16 @@ function myFunction() {
   document.getElementById("scrollToTopBtn").onclick = function() {
       window.scrollTo({top: 0, behavior: 'smooth'});
   };</script>
+  
+  <!-- Load offers for this page -->
+  <script type="module">
+    import { loadOffers } from './js/offers-manager.js';
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      loadOffers('inchiriere');
+    });
+  </script>
 
-<style>
-/* Offers Section Styles */
-.offers-section {
-    background: #f8f9fa;
-    padding: 60px 0;
-    margin-top: 40px;
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-.section-title {
-    text-align: center;
-    font-size: 2.5em;
-    margin-bottom: 40px;
-    color: #333;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-}
-
-.section-title i {
-    color: #667eea;
-}
-</style>
    <script>
     var swiper = new Swiper('.swiper-container', {
         speed: 800,

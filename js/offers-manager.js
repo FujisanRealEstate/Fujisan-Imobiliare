@@ -96,8 +96,9 @@ function showAddOfferModal() {
                 </div>
                 
                 <div class="form-group">
-                    <label for="offerImages">Poze (URL-uri separate prin virgulă)</label>
-                    <textarea id="offerImages" rows="3" placeholder="https://example.com/poza1.jpg, https://example.com/poza2.jpg"></textarea>
+                    <label for="offerImages">Poze</label>
+                    <input type="file" id="offerImages" multiple accept="image/*" style="padding: 8px; border: 1px solid #ddd; border-radius: 4px; width: 100%;">
+                    <small style="color: #666; font-size: 12px;">Poți selecta mai multe imagini (JPG, PNG, GIF)</small>
                 </div>
                 
                 <div class="form-group">
@@ -127,13 +128,27 @@ function showAddOfferModal() {
 async function handleAddOffer(event) {
     event.preventDefault();
     
+    // Handle image uploads first
+    const imageFiles = document.getElementById('offerImages').files;
+    let imageUrls = [];
+    
+    if (imageFiles.length > 0) {
+        try {
+            imageUrls = await uploadImagesToImageKit(imageFiles);
+        } catch (error) {
+            console.error('Error uploading images:', error);
+            alert('Eroare la încărcarea imaginilor: ' + error.message);
+            return;
+        }
+    }
+    
     const formData = {
         title: document.getElementById('offerTitle').value,
         category: document.getElementById('offerCategory').value,
         price: document.getElementById('offerPrice').value || null,
         location: document.getElementById('offerLocation').value || '',
         description: document.getElementById('offerDescription').value,
-        images: document.getElementById('offerImages').value.split(',').map(url => url.trim()).filter(url => url),
+        images: imageUrls,
         contact: document.getElementById('offerContact').value || '',
         createdBy: currentUser.email,
         createdAt: new Date(),
@@ -149,6 +164,42 @@ async function handleAddOffer(event) {
         console.error('Error adding offer:', error);
         alert('Eroare la adăugarea ofertei: ' + error.message);
     }
+}
+
+// Upload images to ImageKit
+async function uploadImagesToImageKit(files) {
+    const imageUrls = [];
+    const imageKitConfig = {
+        publicKey: 'public_UFJStOhYLxOl6tm4ku61BDsF+uo=',
+        urlEndpoint: 'https://ik.imagekit.io/biihsnqf1'
+    };
+    
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('publicKey', imageKitConfig.publicKey);
+        formData.append('fileName', `offer_${Date.now()}_${i}`);
+        
+        try {
+            const response = await fetch('https://upload.imagekit.io/api/v1/files/upload', {
+                method: 'POST',
+                body: formData
+            });
+            
+            if (!response.ok) {
+                throw new Error('Upload failed');
+            }
+            
+            const result = await response.json();
+            imageUrls.push(result.url);
+        } catch (error) {
+            console.error('Error uploading image:', error);
+            throw error;
+        }
+    }
+    
+    return imageUrls;
 }
 
 // Load offers from Firebase
@@ -227,6 +278,21 @@ function displayOffers() {
             </div>
         </div>
     `).join('');
+    
+    // Update search list
+    updateSearchList();
+}
+
+// Update search list with current offers
+function updateSearchList() {
+    const searchList = document.getElementById('myUL');
+    if (!searchList) return;
+    
+    searchList.innerHTML = offers.map(offer => `
+        <li style="border: 1px solid #ddd; background-color: #f6f6f6; padding: 12px; font-size: 18px; color: black; display: block;">
+            <a href="#offer-${offer.id}" class="a">${offer.title}</a>
+        </li>
+    `).join('');
 }
 
 // Get category icon
@@ -286,7 +352,34 @@ function initOffersManager() {
         if (offersContainer) {
             loadOffers();
         }
+        
+        // Initialize search functionality
+        initSearch();
     });
+}
+
+// Initialize search functionality
+function initSearch() {
+    const searchInput = document.getElementById('myInput');
+    const searchList = document.getElementById('myUL');
+    
+    if (searchInput && searchList) {
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const listItems = searchList.getElementsByTagName('li');
+            
+            for (let i = 0; i < listItems.length; i++) {
+                const item = listItems[i];
+                const text = item.textContent || item.innerText;
+                
+                if (text.toLowerCase().includes(searchTerm)) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            }
+        });
+    }
 }
 
 // Export functions
