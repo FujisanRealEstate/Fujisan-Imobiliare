@@ -1059,9 +1059,6 @@ a {
         margin: 0;
     }
 
-    dl dt {
-        /* Stiluri pentru dt, dacă necesar */
-    }
 
     dl dd span {
         display: block;
@@ -1069,13 +1066,6 @@ a {
         float: none;
     }
 
-    dl dd {
-        /* Stiluri pentru dd, dacă necesar */
-    }
-
-    dl dd a {
-        /* Stiluri pentru link-uri în dd, dacă necesar */
-    }
 
     #form {
         margin: 0;

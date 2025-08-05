@@ -169,7 +169,7 @@ function schimbaMesajul() {
 window.onload = schimbaMesajul;
     </script>
         </div>
-        <a href="https://www.freecounterstat.com" title="free counter"><img src="https://counter4.optistats.ovh/private/freecounterstat.php?c=cqu11zpgwfuqzwu7dxmt4l3wmswnqdyk" border="0" title="free counter" alt="free counter"></a>
+        <!-- <p title="Numar vizitatori"><img src="https://counter4.optistats.ovh/private/freecounterstat.php?c=cqu11zpgwfuqzwu7dxmt4l3wmswnqdyk" border="0" title="Numar Vizitatori" alt="Numar Vizitatori"></p> -->
       </div>
       <div class="clear"><div>
     </div>
@@ -186,10 +186,31 @@ window.onload = schimbaMesajul;
   <a href="https://www.soimiitraducerilor.ro/profile-14636-ba-ma-traduceri-autorizate-44-limbi-urgente" target="_blank" class="link1"><img src="https://www.soimiitraducerilor.ro/images/medals/14636/laureat300_gold_ro.png"  alt="BA-MA TRADUCERI AUTORIZATE - 44 LIMBI(URGENȚE) -  Râmnicu Vâlcea" title="BA-MA TRADUCERI AUTORIZATE - 44 LIMBI(URGENȚE) -  Râmnicu Vâlcea" class="class10"></a>
   <p class="written">made by Ba-Ma services</p>
   <p class="handwritten">since 1993</p>
+  <div style="text-align:center; margin-top: 20px;">
+    <div class="statcounter">
+      <!-- <a title="Contor Vizitatori" href="https://statcounter.com/" target="_blank">
+        <img class="statcounter"
+          src="https://c.statcounter.com/13117433/0/ec291a25/0/"
+          alt="Contor vizite"
+          referrerPolicy="no-referrer-when-downgrade"
+          style="width:120px; height:auto;" />
+      </a> -->
+      <!-- <p style="font-size: 14px; margin-top: 5px;">Contor vizite public</p> -->
+    </div>
+  </div>
  
 </footer>
 
   <a href="#" class="scroll-to-top" id="scrollToTopBtn">↑</a>
+  
+  <!-- Firebase Statistics -->
+  <div style="text-align: center; margin: 20px 0; padding: 10px; background: #f8f9fa; border-radius: 5px;">
+    <p style="margin: 0; font-size: 14px; color: #6c757d;">
+      Vizitatori astăzi: <span id="todayVisits">-</span> | 
+      Total vizitatori: <span id="totalVisits">-</span>
+    </p>
+  </div>
+  
   <script>
     var swiper = new Swiper('.swiper-container', {
         speed: 800,
@@ -209,7 +230,11 @@ window.onload = schimbaMesajul;
         effect: 'slide',
         grabCursor: true,
     });
-    </script>
+  </script>
+  
+  <!-- Firebase SDK -->
+  <script type="module" src="js/visit-counter.js"></script>
+  
 <script>Cufon.now();</script>
 </body>
 </html>
