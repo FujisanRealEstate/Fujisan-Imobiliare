@@ -334,11 +334,14 @@ async function handleAddOffer(event) {
     }
 }
 
+
+
 // Upload images to ImageKit
 async function uploadImagesToImageKit(files, progressCallback, statusCallback) {
     const imageUrls = [];
     const imageKitConfig = {
         publicKey: 'public_UFJStOhYLxOl6tm4ku61BDsF+uo=',
+        privateKey: 'private_9V1gOW/GUOzJOSpFoTu8pPoi7MY=', // Cheia ta privată ImageKit
         urlEndpoint: 'https://ik.imagekit.io/biihsnqf1'
     };
     
@@ -347,6 +350,8 @@ async function uploadImagesToImageKit(files, progressCallback, statusCallback) {
         const formData = new FormData();
         formData.append('file', file);
         formData.append('publicKey', imageKitConfig.publicKey);
+        formData.append('privateKey', imageKitConfig.privateKey);
+        
         formData.append('fileName', `offer_${Date.now()}_${i}`);
         formData.append('useUniqueFileName', 'true');
         formData.append('folder', '/fujisan-offers');
