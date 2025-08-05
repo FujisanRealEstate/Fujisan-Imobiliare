@@ -3,163 +3,715 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil Fujisan Imobiliare</title>
+    <title>Profil Administrator - Fujisan Imobiliare</title>
     <link rel="icon" href="images/bama.png" type="image/x-icon">
     <link rel="stylesheet" type="text/css" media="screen" href="css/reset.css">
     <link rel="stylesheet" type="text/css" media="screen" href="css/style.css">
     <link rel="stylesheet" type="text/css" media="screen" href="css/grid_12.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        .profile-container {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 20px;
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        
-        .auth-container {
-            text-align: center;
-            padding: 40px;
+
+        body {
+            font: 14px/25px Arial, Helvetica, sans-serif;
+            background: #131313;
+            min-height: 100vh;
+            color: #939393;
+            margin: 0;
+            padding: 0;
         }
-        
-        .login-btn {
-            background: #4285f4;
-            color: white;
+
+        .main {
+            background: #272727;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: #272727;
+            padding: 20px 0;
+            border-bottom: 1px solid #333;
+            position: relative;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 0 20px;
+            gap: 80px;
+        }
+
+        .back-btn {
+            background: #2098f5;
+            color: #fff;
             border: none;
             padding: 12px 24px;
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
-            margin: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
-        
+
+        .back-btn:hover {
+            background: #131313;
+            text-decoration: none;
+        }
+
+        .profile-container {
+            flex: 1;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .auth-container {
+            background: #272727;
+            border: 1px solid #333;
+            border-radius: 5px;
+            padding: 60px 40px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .auth-container h2 {
+            font-size: 36px;
+            line-height: 45px;
+            color: #fff;
+            font-weight: normal;
+            letter-spacing: -1px;
+            margin-bottom: 20px;
+        }
+
+        .login-btn {
+            background: #2098f5;
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 600;
+            margin: 20px 10px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
         .login-btn:hover {
-            background: #3367d6;
+            background: #131313;
+            text-decoration: none;
         }
-        
+
         .profile-info {
             display: none;
-            text-align: center;
+            background: #272727;
+            border: 1px solid #333;
+            border-radius: 5px;
+            padding: 40px;
+            margin: 20px 0;
         }
-        
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .profile-header h2 {
+            font-size: 36px;
+            line-height: 45px;
+            color: #fff;
+            font-weight: normal;
+            letter-spacing: -1px;
+            margin-bottom: 20px;
+        }
+
         .profile-avatar {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             margin: 20px auto;
             display: block;
+            border: 4px solid #2098f5;
         }
-        
+
         .profile-details {
-            margin: 20px 0;
-            padding: 20px;
-            background: #f5f5f5;
-            border-radius: 5px;
-        }
-        
-        .logout-btn {
-            background: #dc3545;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-        
-        .logout-btn:hover {
-            background: #c82333;
-        }
-        
-        .admin-panel {
-            margin-top: 30px;
-            padding: 20px;
-            background: #e9ecef;
-            border-radius: 5px;
-        }
-        
-        .admin-panel h3 {
-            color: #495057;
-            margin-bottom: 15px;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-        
-        .stat-card {
-            background: white;
-            padding: 15px;
+            margin: 30px 0;
+            padding: 30px;
+            background: #131313;
+            border: 1px solid #333;
             border-radius: 5px;
             text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-        
-        .stat-number {
+
+        .profile-details h3 {
             font-size: 24px;
-            font-weight: bold;
-            color: #007bff;
+            line-height: 30px;
+            color: #fff;
+            font-weight: normal;
+            margin-bottom: 10px;
         }
-        
+
+        .profile-details p {
+            font-size: 14px;
+            line-height: 25px;
+            color: #939393;
+        }
+
+        .admin-panel {
+            margin-top: 40px;
+            padding: 30px;
+            background: #131313;
+            border: 1px solid #333;
+            border-radius: 5px;
+            color: #939393;
+        }
+
+        .admin-panel h3 {
+            font-size: 24px;
+            line-height: 30px;
+            color: #fff;
+            font-weight: normal;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .stat-card {
+            background: #272727;
+            border: 1px solid #333;
+            padding: 25px;
+            border-radius: 5px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: #2098f5;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            line-height: 45px;
+            color: #fff;
+            font-weight: normal;
+            margin-bottom: 10px;
+        }
+
         .stat-label {
-            color: #6c757d;
-            margin-top: 5px;
+            color: #939393;
+            font-size: 14px;
+            line-height: 25px;
+        }
+
+        .logout-btn {
+            background: #f76300;
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 30px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logout-btn:hover {
+            background: #131313;
+            text-decoration: none;
+        }
+
+        .admin-actions {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .action-btn {
+            background: #2098f5;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            margin: 10px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-btn:hover {
+            background: #131313;
+            text-decoration: none;
+        }
+
+        .action-btn.secondary {
+            background: #4CAF50;
+        }
+
+        .action-btn.secondary:hover {
+            background: #131313;
+            text-decoration: none;
+        }
+
+         /* Offer status styles */
+         .offer-status {
+             padding: 6px 12px;
+             border-radius: 20px;
+             font-size: 12px;
+             font-weight: 600;
+             text-transform: uppercase;
+             display: flex;
+             align-items: center;
+             gap: 5px;
+         }
+
+         .offer-status.active {
+             background: #d4edda;
+             color: #155724;
+         }
+
+         .offer-status.inactive {
+             background: #f8d7da;
+             color: #721c24;
+         }
+
+         .offer-actions {
+             margin-top: 15px;
+             display: flex;
+             gap: 10px;
+         }
+
+         .error {
+             background: #f8d7da;
+             color: #721c24;
+             padding: 15px;
+             border-radius: 8px;
+             text-align: center;
+         }
+
+         /* Offer card styles for admin panel */
+         .offer-card {
+             background: #272727;
+             border: 1px solid #333;
+             border-radius: 5px;
+             margin-bottom: 30px;
+             overflow: hidden;
+             transition: all 0.3s ease;
+         }
+
+         .offer-card:hover {
+             border-color: #2098f5;
+         }
+
+         .offer-images {
+             height: 200px;
+             overflow: hidden;
+             position: relative;
+         }
+
+         .offer-images img {
+             width: 100%;
+             height: 100%;
+             object-fit: cover;
+             transition: transform 0.3s ease;
+         }
+
+         .offer-content {
+             padding: 20px;
+         }
+
+         .offer-title {
+             font-size: 24px;
+             line-height: 30px;
+             color: #fff;
+             font-weight: normal;
+             margin-bottom: 15px;
+         }
+
+         .offer-meta {
+             display: flex;
+             flex-wrap: wrap;
+             gap: 10px;
+             margin-bottom: 15px;
+         }
+
+         .offer-category {
+             padding: 6px 12px;
+             border-radius: 5px;
+             font-size: 12px;
+             font-weight: 600;
+             text-transform: uppercase;
+             display: flex;
+             align-items: center;
+             gap: 5px;
+         }
+
+         .offer-category.vanzare {
+             background: #2098f5;
+             color: #fff;
+         }
+
+         .offer-category.cumparare {
+             background: #4CAF50;
+             color: #fff;
+         }
+
+         .offer-category.inchiriere {
+             background: #f76300;
+             color: #fff;
+         }
+
+         .offer-price {
+             background: #2098f5;
+             color: #fff;
+             padding: 6px 12px;
+             border-radius: 5px;
+             font-weight: 600;
+             font-size: 14px;
+         }
+
+         .offer-location {
+             color: #939393;
+             font-size: 14px;
+             line-height: 25px;
+             display: flex;
+             align-items: center;
+             gap: 5px;
+         }
+
+         .offer-description {
+             color: #939393;
+             line-height: 25px;
+             margin-bottom: 15px;
+             font-size: 14px;
+         }
+
+         .offer-contact {
+             background: #131313;
+             border: 1px solid #333;
+             padding: 10px 15px;
+             border-radius: 5px;
+             margin-bottom: 15px;
+             color: #939393;
+             font-weight: 500;
+             display: flex;
+             align-items: center;
+             gap: 8px;
+         }
+
+         .offer-date {
+             color: #939393;
+             font-size: 12px;
+             line-height: 25px;
+             display: flex;
+             align-items: center;
+             gap: 5px;
+             margin-bottom: 15px;
+         }
+
+         .delete-offer-btn {
+             background: #dc3545;
+             color: #fff;
+             border: none;
+             padding: 8px 16px;
+             border-radius: 5px;
+             cursor: pointer;
+             font-size: 12px;
+             font-weight: 600;
+             transition: all 0.3s ease;
+             display: flex;
+             align-items: center;
+             gap: 5px;
+         }
+
+         .delete-offer-btn:hover {
+             background: #131313;
+         }
+
+         .no-offers {
+             text-align: center;
+             padding: 60px 20px;
+             color: #939393;
+             font-size: 14px;
+             line-height: 25px;
+             background: #131313;
+             border: 1px solid #333;
+             border-radius: 5px;
+         }
+
+         .no-offers i {
+             font-size: 3em;
+             color: #939393;
+             margin-bottom: 20px;
+             display: block;
+         }
+
+         /* Modal styles for offers */
+         .offer-modal {
+             position: fixed;
+             top: 0;
+             left: 0;
+             width: 100%;
+             height: 100%;
+             background: rgba(0, 0, 0, 0.7);
+             display: flex;
+             justify-content: center;
+             align-items: center;
+             z-index: 2000;
+         }
+
+         .modal-content {
+             background: #272727;
+             border: 1px solid #333;
+             border-radius: 5px;
+             padding: 0;
+             max-width: 600px;
+             width: 90%;
+             max-height: 90vh;
+             overflow-y: auto;
+         }
+
+         .modal-header {
+             background: #131313;
+             border-bottom: 1px solid #333;
+             color: #fff;
+             padding: 20px 30px;
+             display: flex;
+             justify-content: space-between;
+             align-items: center;
+         }
+
+         .modal-header h3 {
+             margin: 0;
+             font-size: 24px;
+             line-height: 30px;
+             color: #fff;
+             font-weight: normal;
+             display: flex;
+             align-items: center;
+             gap: 10px;
+         }
+
+         .close-btn {
+             background: #2098f5;
+             border: none;
+             color: #fff;
+             padding: 8px 12px;
+             border-radius: 5px;
+             cursor: pointer;
+             font-size: 16px;
+             transition: all 0.3s ease;
+         }
+
+         .close-btn:hover {
+             background: #131313;
+         }
+
+         #addOfferForm {
+             padding: 30px;
+         }
+
+         .form-group {
+             margin-bottom: 20px;
+         }
+
+         .form-group label {
+             display: block;
+             margin-bottom: 8px;
+             font-weight: 600;
+             color: #fff;
+             font-size: 14px;
+             line-height: 25px;
+         }
+
+         .form-group input,
+         .form-group select,
+         .form-group textarea {
+             width: 100%;
+             padding: 12px 15px;
+             border: 1px solid #333;
+             border-radius: 5px;
+             font-size: 14px;
+             line-height: 25px;
+             transition: all 0.3s ease;
+             font-family: inherit;
+             background: #131313;
+             color: #939393;
+         }
+
+         .form-group input:focus,
+         .form-group select:focus,
+         .form-group textarea:focus {
+             outline: none;
+             border-color: #2098f5;
+         }
+
+         .form-group textarea {
+             resize: vertical;
+             min-height: 80px;
+         }
+
+         .form-actions {
+             display: flex;
+             gap: 15px;
+             justify-content: flex-end;
+             margin-top: 30px;
+             padding-top: 20px;
+             border-top: 1px solid #333;
+         }
+
+         .btn-primary,
+         .btn-secondary {
+             padding: 12px 24px;
+             border: none;
+             border-radius: 5px;
+             cursor: pointer;
+             font-size: 14px;
+             font-weight: 600;
+             transition: all 0.3s ease;
+             display: flex;
+             align-items: center;
+             gap: 8px;
+         }
+
+         .btn-primary {
+             background: #2098f5;
+             color: #fff;
+         }
+
+         .btn-primary:hover {
+             background: #131313;
+         }
+
+         .btn-secondary {
+             background: #6c757d;
+             color: #fff;
+         }
+
+         .btn-secondary:hover {
+             background: #131313;
+         }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-container {
+                padding: 0 10px;
+            }
+            
+            .auth-container, .profile-info {
+                padding: 30px 20px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="main">
         <header>
-            <div>
-                <h1><a href="index.html"><img src="images/Plurimos_annos-removebg-preview1.png" height="120" width="400"></a></h1>
+            <div class="header-content">
+                <a href="index.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Înapoi la Pagina Principală
+                </a>
+                <h1><a href="index.html"><img src="images/Plurimos_annos-removebg-preview1.png" height="80" width="300"></a></h1>
             </div>
         </header>
         
         <div class="profile-container">
             <div class="auth-container" id="authContainer">
-                <h2>Autentificare Profil</h2>
-                <p>Accesul la această pagină necesită autentificare.</p>
+                <h2><i class="fas fa-user-shield"></i> Panou Administrator</h2>
+                <p style="font-size: 1.2em; margin-bottom: 30px; color: #666;">Accesul la această pagină necesită autentificare cu contul de administrator.</p>
                 <button class="login-btn" id="googleLoginBtn">
-                    <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" style="width: 18px; height: 18px; margin-right: 8px; vertical-align: middle;">
+                    <i class="fab fa-google"></i>
                     Autentificare cu Google
                 </button>
             </div>
             
             <div class="profile-info" id="profileInfo">
-                <h2>Profil Administrator</h2>
-                <img id="userAvatar" class="profile-avatar" src="" alt="Avatar">
-                <div class="profile-details">
-                    <h3 id="userName">Nume Utilizator</h3>
-                    <p id="userEmail">email@example.com</p>
-                </div>
-                
-                <div class="admin-panel">
-                    <h3>Panou de Control</h3>
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-number" id="totalVisits">0</div>
-                            <div class="stat-label">Vizitatori Totali</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number" id="todayVisits">0</div>
-                            <div class="stat-label">Vizitatori Astăzi</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number" id="totalProperties">0</div>
-                            <div class="stat-label">Proprietăți</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number" id="activeListings">0</div>
-                            <div class="stat-label">Anunțuri Active</div>
-                        </div>
+                <div class="profile-header">
+                    <h2><i class="fas fa-crown"></i> Profil Administrator</h2>
+                    <img id="userAvatar" class="profile-avatar" src="" alt="Avatar">
+                    <div class="profile-details">
+                        <h3 id="userName">Nume Utilizator</h3>
+                        <p id="userEmail">email@example.com</p>
                     </div>
                 </div>
                 
-                <button class="logout-btn" id="logoutBtn">Deconectare</button>
+                <div class="admin-panel">
+                    <h3><i class="fas fa-chart-line"></i> Statistici Site</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number" id="totalVisits">0</div>
+                            <div class="stat-label"><i class="fas fa-users"></i> Vizitatori Totali</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="todayVisits">0</div>
+                            <div class="stat-label"><i class="fas fa-calendar-day"></i> Vizitatori Astăzi</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="totalProperties">0</div>
+                            <div class="stat-label"><i class="fas fa-home"></i> Proprietăți</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="activeListings">0</div>
+                            <div class="stat-label"><i class="fas fa-tags"></i> Anunțuri Active</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-actions">
+                    <button class="action-btn" onclick="refreshStats()">
+                        <i class="fas fa-sync-alt"></i>
+                        Actualizează Statisticile
+                    </button>
+                    <button class="action-btn secondary" onclick="openOffersManager()">
+                        <i class="fas fa-list"></i>
+                        Gestionează Ofertele
+                    </button>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="logout-btn" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Deconectare
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -200,11 +752,21 @@
         const userName = document.getElementById('userName');
         const userEmail = document.getElementById('userEmail');
 
+        // Admin emails
+        const ADMIN_EMAILS = ['matbajean@gmail.com', 'fujisanimobiliare@gmail.com'];
+
         // Login function
         async function signInWithGoogle() {
             try {
                 const result = await signInWithPopup(auth, provider);
                 const user = result.user;
+                
+                // Check if user is admin
+                if (!ADMIN_EMAILS.includes(user.email)) {
+                    alert('Acces restricționat. Doar administratorii pot accesa această pagină.');
+                    await signOut(auth);
+                    return;
+                }
                 
                 // Save user data to Firestore
                 await setDoc(doc(db, "users", user.uid), {
@@ -215,7 +777,7 @@
                     isAdmin: true
                 }, { merge: true });
                 
-                console.log("User signed in:", user);
+                console.log("Admin signed in:", user);
             } catch (error) {
                 console.error("Error signing in:", error);
                 alert("Eroare la autentificare: " + error.message);
@@ -234,12 +796,12 @@
 
         // Update UI based on auth state
         function updateUI(user) {
-            if (user) {
+            if (user && ADMIN_EMAILS.includes(user.email)) {
                 authContainer.style.display = 'none';
                 profileInfo.style.display = 'block';
                 
                 userAvatar.src = user.photoURL || 'images/bama.png';
-                userName.textContent = user.displayName || 'Utilizator';
+                userName.textContent = user.displayName || 'Administrator';
                 userEmail.textContent = user.email || '';
                 
                 // Load admin data
@@ -273,6 +835,248 @@
             }
         }
 
+        // Global functions
+        window.refreshStats = loadAdminData;
+        window.openOffersManager = function() {
+            // Open offers management modal
+            showOffersManagerModal();
+        };
+
+        // Show offers management modal
+        function showOffersManagerModal() {
+            const modal = document.createElement('div');
+            modal.className = 'offer-modal';
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 1000px;">
+                    <div class="modal-header">
+                        <h3><i class="fas fa-list"></i> Gestionare Oferte</h3>
+                        <button class="close-btn" onclick="this.closest('.offer-modal').remove()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div style="padding: 30px;">
+                        <div style="margin-bottom: 20px;">
+                            <button class="action-btn" onclick="loadAllOffers()">
+                                <i class="fas fa-sync-alt"></i>
+                                Încarcă Toate Ofertele
+                            </button>
+                            <button class="action-btn secondary" onclick="showAddOfferModal()">
+                                <i class="fas fa-plus"></i>
+                                Adaugă Ofertă Nouă
+                            </button>
+                        </div>
+                        <div id="adminOffersContainer">
+                            <div style="text-align: center; padding: 40px; color: #666;">
+                                <i class="fas fa-spinner fa-spin" style="font-size: 2em; margin-bottom: 20px;"></i>
+                                <p>Se încarcă ofertele...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+            loadAllOffers();
+        }
+
+        // Load all offers for admin
+        window.loadAllOffers = async function() {
+            const container = document.getElementById('adminOffersContainer');
+            if (!container) return;
+
+            try {
+                const querySnapshot = await getDocs(collection(db, "offers"));
+                const offers = [];
+                
+                querySnapshot.forEach((doc) => {
+                    offers.push({
+                        id: doc.id,
+                        ...doc.data()
+                    });
+                });
+
+                if (offers.length === 0) {
+                    container.innerHTML = '<div class="no-offers"><i class="fas fa-info-circle"></i> Nu există oferte în baza de date.</div>';
+                    return;
+                }
+
+                container.innerHTML = offers.map(offer => `
+                    <div class="offer-card" data-offer-id="${offer.id}">
+                        <div class="offer-images">
+                            ${offer.images && offer.images.length > 0 
+                                ? `<img src="${offer.images[0]}" alt="${offer.title}" onerror="this.src='images/bama.png'">`
+                                : '<img src="images/bama.png" alt="No image">'
+                            }
+                        </div>
+                        <div class="offer-content">
+                            <h3 class="offer-title">${offer.title}</h3>
+                            <div class="offer-meta">
+                                <span class="offer-category ${offer.category}">
+                                    <i class="fas fa-${getCategoryIcon(offer.category)}"></i>
+                                    ${getCategoryName(offer.category)}
+                                </span>
+                                <span class="offer-status ${offer.status}">
+                                    <i class="fas fa-circle"></i>
+                                    ${offer.status === 'active' ? 'Activă' : 'Inactivă'}
+                                </span>
+                                ${offer.price ? `<span class="offer-price">${offer.price} RON</span>` : ''}
+                                ${offer.location ? `<span class="offer-location"><i class="fas fa-map-marker-alt"></i> ${offer.location}</span>` : ''}
+                            </div>
+                            <p class="offer-description">${offer.description}</p>
+                            ${offer.contact ? `<div class="offer-contact"><i class="fas fa-phone"></i> ${offer.contact}</div>` : ''}
+                            <div class="offer-date">
+                                <i class="fas fa-calendar"></i>
+                                ${new Date(offer.createdAt.toDate()).toLocaleDateString('ro-RO')}
+                            </div>
+                            <div class="offer-actions">
+                                <button class="delete-offer-btn" onclick="deleteOffer('${offer.id}')">
+                                    <i class="fas fa-trash"></i> Șterge
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+            } catch (error) {
+                console.error('Error loading offers:', error);
+                container.innerHTML = '<div class="error">Eroare la încărcarea ofertelor: ' + error.message + '</div>';
+            }
+        };
+
+        // Helper functions
+        function getCategoryIcon(category) {
+            const icons = {
+                'vanzare': 'home',
+                'cumparare': 'search',
+                'inchiriere': 'key'
+            };
+            return icons[category] || 'tag';
+        }
+
+                 function getCategoryName(category) {
+             const names = {
+                 'vanzare': 'Vânzare',
+                 'cumparare': 'Cumpărare',
+                 'inchiriere': 'Închiriere'
+             };
+             return names[category] || category;
+         }
+
+         // Delete offer function
+         window.deleteOffer = async function(offerId) {
+             if (!confirm('Ești sigur că vrei să ștergi această ofertă?')) {
+                 return;
+             }
+
+             try {
+                 await deleteDoc(doc(db, "offers", offerId));
+                 alert('Oferta a fost ștearsă cu succes!');
+                 loadAllOffers(); // Reload offers
+             } catch (error) {
+                 console.error('Error deleting offer:', error);
+                 alert('Eroare la ștergerea ofertei: ' + error.message);
+             }
+         };
+
+         // Show add offer modal
+         window.showAddOfferModal = function() {
+             const modal = document.createElement('div');
+             modal.className = 'offer-modal';
+             modal.innerHTML = `
+                 <div class="modal-content">
+                     <div class="modal-header">
+                         <h3><i class="fas fa-plus-circle"></i> Adaugă Ofertă Nouă</h3>
+                         <button class="close-btn" onclick="this.closest('.offer-modal').remove()">
+                             <i class="fas fa-times"></i>
+                         </button>
+                     </div>
+                     <form id="addOfferForm">
+                         <div class="form-group">
+                             <label for="offerTitle">Titlu Ofertă *</label>
+                             <input type="text" id="offerTitle" required placeholder="Ex: Apartament 3 camere centru">
+                         </div>
+                         
+                         <div class="form-group">
+                             <label for="offerCategory">Categorie *</label>
+                             <select id="offerCategory" required>
+                                 <option value="">Selectează categoria</option>
+                                 <option value="vanzare">Vânzare</option>
+                                 <option value="cumparare">Cumpărare</option>
+                                 <option value="inchiriere">Închiriere</option>
+                             </select>
+                         </div>
+                         
+                         <div class="form-group">
+                             <label for="offerPrice">Preț (RON)</label>
+                             <input type="number" id="offerPrice" placeholder="Ex: 150000">
+                         </div>
+                         
+                         <div class="form-group">
+                             <label for="offerLocation">Locație</label>
+                             <input type="text" id="offerLocation" placeholder="Ex: Râmnicu Vâlcea, centru">
+                         </div>
+                         
+                         <div class="form-group">
+                             <label for="offerDescription">Descriere *</label>
+                             <textarea id="offerDescription" required rows="4" placeholder="Descrie detaliile ofertei..."></textarea>
+                         </div>
+                         
+                         <div class="form-group">
+                             <label for="offerImages">Poze (URL-uri separate prin virgulă)</label>
+                             <textarea id="offerImages" rows="3" placeholder="https://example.com/poza1.jpg, https://example.com/poza2.jpg"></textarea>
+                         </div>
+                         
+                         <div class="form-group">
+                             <label for="offerContact">Contact</label>
+                             <input type="text" id="offerContact" placeholder="Telefon sau email">
+                         </div>
+                         
+                         <div class="form-actions">
+                             <button type="button" class="btn-secondary" onclick="this.closest('.offer-modal').remove()">
+                                 <i class="fas fa-times"></i> Anulează
+                             </button>
+                             <button type="submit" class="btn-primary">
+                                 <i class="fas fa-save"></i> Salvează Oferta
+                             </button>
+                         </div>
+                     </form>
+                 </div>
+             `;
+
+             document.body.appendChild(modal);
+
+             // Handle form submission
+             document.getElementById('addOfferForm').addEventListener('submit', handleAddOffer);
+         };
+
+         // Handle add offer form submission
+         async function handleAddOffer(event) {
+             event.preventDefault();
+             
+             const formData = {
+                 title: document.getElementById('offerTitle').value,
+                 category: document.getElementById('offerCategory').value,
+                 price: document.getElementById('offerPrice').value || null,
+                 location: document.getElementById('offerLocation').value || '',
+                 description: document.getElementById('offerDescription').value,
+                 images: document.getElementById('offerImages').value.split(',').map(url => url.trim()).filter(url => url),
+                 contact: document.getElementById('offerContact').value || '',
+                 createdBy: currentUser.email,
+                 createdAt: new Date(),
+                 status: 'active'
+             };
+
+             try {
+                 await addDoc(collection(db, "offers"), formData);
+                 alert('Oferta a fost adăugată cu succes!');
+                 document.querySelector('.offer-modal').remove();
+                 loadAllOffers(); // Reload offers
+             } catch (error) {
+                 console.error('Error adding offer:', error);
+                 alert('Eroare la adăugarea ofertei: ' + error.message);
+             }
+         }
+
         // Event listeners
         googleLoginBtn.addEventListener('click', signInWithGoogle);
         logoutBtn.addEventListener('click', signOutUser);
@@ -282,5 +1086,16 @@
             updateUI(user);
         });
     </script>
+
+    <!-- Firebase Statistics - matching main site style -->
+    <div style="text-align: center; margin: 20px 0; padding: 10px; background: #f8f9fa; border-radius: 5px;">
+        <p style="margin: 0; font-size: 14px; color: #6c757d;">
+            Vizitatori astăzi: <span id="todayVisits">-</span> | 
+            Total vizitatori: <span id="totalVisits">-</span>
+        </p>
+    </div>
+    
+    <!-- Firebase SDK -->
+    <script type="module" src="js/visit-counter.js"></script>
 </body>
 </html> 
