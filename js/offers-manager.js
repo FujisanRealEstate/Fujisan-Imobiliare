@@ -154,6 +154,11 @@ function showAddOfferModal() {
 
 // Initialize upload functionality for offers
 function initOfferUpload() {
+    // Initialize selected files array if not exists
+    if (!window.selectedOfferFiles) {
+        window.selectedOfferFiles = [];
+    }
+    
     const uploadArea = document.getElementById('offerUploadArea');
     const fileInput = document.getElementById('offerImages');
     const imagePreview = document.getElementById('offerImagePreview');
